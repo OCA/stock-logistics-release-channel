@@ -5,17 +5,21 @@
 {
     "name": "Stock Release Channel Preparation Plan",
     "summary": "Manage release channel preparation plan",
-    "version": "16.0.1.0.0",
+    "version": "16.0.1.1.0",
     "development_status": "Beta",
     "license": "AGPL-3",
     "author": "ACSONE SA/NV,BCIM,Odoo Community Association (OCA)",
     "maintainers": ["jbaudoux"],
     "website": "https://github.com/OCA/wms",
-    "depends": ["stock_release_channel"],
+    "depends": [
+        "base_time_window",
+        "stock_release_channel",
+    ],
     "data": [
         "security/stock_release_channel_preparation_plan.xml",
         "security/stock_release_channel_plan_launch.xml",
         "wizards/launch_plan.xml",
+        "views/res_partner.xml",
         "views/stock_release_channel_preparation_plan.xml",
         "views/stock_release_channel.xml",
     ],
