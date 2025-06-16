@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo noupdate="1">
-
     <record model="queue.job.channel" id="stock_release_channel">
         <field name="name">stock_release_channel</field>
         <field name="parent_id" ref="queue_job.channel_root" />
@@ -14,5 +13,4 @@
         <field name="method">assign_release_channel</field>
         <field name="channel_id" ref="stock_release_channel" />
     </record>
-
 </odoo>

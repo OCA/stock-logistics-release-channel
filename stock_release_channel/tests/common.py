@@ -28,7 +28,7 @@ class ReleaseChannelCase(common.TransactionCase):
         cls._create_base_data()
 
     def setUp(self):
-        super(ReleaseChannelCase, self).setUp()
+        super().setUp()
         loggers = ["odoo.addons.stock_release_channel.models.stock_release_channel"]
         for logger in loggers:
             logging.getLogger(logger).addFilter(self)

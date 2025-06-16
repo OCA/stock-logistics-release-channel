@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-
     <record model="ir.ui.view" id="stock_release_channel_form_view">
         <field name="name">stock.release.channel.form</field>
         <field name="model">stock.release.channel</field>
@@ -81,8 +80,8 @@
                         <field name="name" />
                     </h1>
                     <group>
-                      <field name="company_id" invisible="1" />
-                      <field
+                        <field name="company_id" invisible="1" />
+                        <field
                             name="company_id"
                             groups="base.group_multi_company"
                             options="{'no_create': True}"
@@ -95,21 +94,21 @@
                             groups="stock.group_stock_manager"
                         >
                             <group name="options">
-                        <field name="state_at_wakeup" />
-                        <field name="release_forbidden" />
-                        <field
+                                <field name="state_at_wakeup" />
+                                <field name="release_forbidden" />
+                                <field
                                     name="release_mode"
                                     attrs="{'invisible': [('release_forbidden', '=', True)]}"
                                 />
-                        <field
+                                <field
                                     name="batch_mode"
                                     attrs="{'invisible': ['|', ('release_mode','!=', 'batch'), ('release_forbidden', '=', True)]}"
                                 />
-                        <field
+                                <field
                                     name="max_batch_mode"
                                     attrs="{'invisible': ['|', '|', ('release_mode','!=', 'batch'), ('release_forbidden', '=', True), ('batch_mode', '!=', 'max')]}"
                                 />
-                    </group>
+                            </group>
                         </page>
                         <page string="Selection criteria" name="criteria">
                             <group name="criteria">
@@ -281,12 +280,14 @@
                                         <a
                                             class="o_kanban_manage_toggle_button"
                                             href="#"
-                                        ><i
+                                        >
+                                            <i
                                                 class="fa fa-ellipsis-v"
                                                 role="img"
                                                 aria-label="Details"
                                                 title="Details"
-                                            /></a>
+                                            />
+                                        </a>
                                     </div>
                                 </div>
                                 <div class="container o_kanban_card_content">
@@ -350,8 +351,8 @@
                                                         type="object"
                                                     >
                                                         [~<field
-                                                            name="count_move_release_ready"
-                                                        />]
+                                                        name="count_move_release_ready"
+                                                    />]
                                                     </a>
                                                 </div>
                                             </div>
@@ -389,8 +390,8 @@
                                                         type="object"
                                                     >
                                                         [~<field
-                                                            name="count_move_released"
-                                                        />]
+                                                        name="count_move_released"
+                                                    />]
                                                     </a>
                                                 </div>
                                             </div>
@@ -426,8 +427,8 @@
                                                         type="object"
                                                     >
                                                         [~<field
-                                                            name="count_move_done"
-                                                        />]
+                                                        name="count_move_done"
+                                                    />]
                                                     </a>
                                                 </div>
                                             </div>
@@ -477,165 +478,165 @@
                                                 >
                                                     /
                                                     <field
-                                                        name="count_picking_full_progress"
-                                                    />
+                                                    name="count_picking_full_progress"
+                                                />
                                                 </div>
                                             </div>
-
                                         </div>
                                     </div>
 
                                     <div class="row">
-                                      <div
+                                        <div
                                             class="row col mx-0 o_kanban_primary_bottom bottom_block"
                                             style="--gutter-x:15px; align-items:center; flex-wrap:nowrap"
                                         >
-                                        <div class="col-auto">
-                                            <button
+                                            <div class="col-auto">
+                                                <button
                                                     class="btn btn-primary"
                                                     name="action_picking_assigned"
                                                     type="object"
                                                 >
-                                                <span><t
-                                                            t-esc="record.count_picking_assigned.value"
-                                                        /> To Ship</span>
-                                                <br />
-                                                <span>[~<t
-                                                            t-esc="record.count_move_assigned.value"
-                                                        /> Lines]</span>
-                                            </button>
-                                        </div>
-                                        <div class="col">
-                                            <div
+                                                    <span><t
+                                                        t-esc="record.count_picking_assigned.value"
+                                                    /> To Ship</span>
+                                                    <br />
+                                                    <span>[~<t
+                                                        t-esc="record.count_move_assigned.value"
+                                                    /> Lines]</span>
+                                                </button>
+                                            </div>
+                                            <div class="col">
+                                                <div
                                                     name="count_waiting"
                                                     class="row"
                                                     style="justify-content: flex-end; --gutter-x: 5px"
                                                 >
-                                                <div
+                                                    <div
                                                         class="col-auto"
                                                         style="flex:0 80px"
                                                     >
-                                                    <a
+                                                        <a
                                                             name="action_picking_waiting"
                                                             type="object"
                                                         >
                                                         Waiting
                                                     </a>
-                                                </div>
-                                                <div
+                                                    </div>
+                                                    <div
                                                         class="col-auto"
                                                         style="flex:1; text-align:right"
                                                     >
-                                                    <field
+                                                        <field
                                                             name="count_picking_waiting"
                                                         />
-                                                </div>
-                                                <div
+                                                    </div>
+                                                    <div
                                                         class="col-auto"
                                                         style="flex:1; white-space:nowrap"
                                                     >
-                                                    <a
+                                                        <a
                                                             name="action_move_waiting"
                                                             type="object"
                                                         >
                                                         [~<field
-                                                                name="count_move_waiting"
-                                                            />]
+                                                            name="count_move_waiting"
+                                                        />]
                                                     </a>
+                                                    </div>
                                                 </div>
-                                            </div>
 
-                                            <div
+                                                <div
                                                     name="count_late"
                                                     class="row"
                                                     t-attf-style="justify-content: flex-end; --gutter-x: 5px; #{record.count_picking_late.value > 0 ? 'color: red' : ''}"
                                                 >
-                                                <div
+                                                    <div
                                                         class="col-auto"
                                                         style="flex:0 80px"
                                                     >
-                                                    <a
+                                                        <a
                                                             name="action_picking_late"
                                                             type="object"
                                                             t-attf-style="#{record.count_picking_late.value > 0 ? 'color: red' : ''}"
                                                         >
                                                         Late
                                                     </a>
-                                                </div>
-                                                <div
+                                                    </div>
+                                                    <div
                                                         class="col-auto"
                                                         style="flex:1; text-align:right"
                                                     >
-                                                    <field name="count_picking_late" />
-                                                </div>
-                                                <div
+                                                        <field
+                                                            name="count_picking_late"
+                                                        />
+                                                    </div>
+                                                    <div
                                                         class="col-auto"
                                                         style="flex:1; white-space:nowrap"
                                                     >
-                                                    <a
+                                                        <a
                                                             name="action_move_late"
                                                             type="object"
                                                             t-attf-style="#{record.count_picking_late.value > 0 ? 'color: red' : ''}"
                                                         >
                                                         [~<field
-                                                                name="count_move_late"
-                                                            />]
+                                                            name="count_move_late"
+                                                        />]
                                                     </a>
+                                                    </div>
                                                 </div>
-                                            </div>
 
-                                            <div
+                                                <div
                                                     name="count_priority"
                                                     class="row"
                                                     style="justify-content: flex-end; --gutter-x: 5px"
                                                 >
-                                                <div
+                                                    <div
                                                         class="col-auto"
                                                         style="flex:0 80px"
                                                     >
-                                                    <a
+                                                        <a
                                                             name="action_picking_priority"
                                                             type="object"
                                                         >
                                                         Priority
                                                     </a>
-                                                </div>
-                                                <div
+                                                    </div>
+                                                    <div
                                                         class="col-auto"
                                                         style="flex:1; text-align:right"
                                                     >
-                                                    <field
+                                                        <field
                                                             name="count_picking_priority"
                                                         />
-                                                </div>
-                                                <div
+                                                    </div>
+                                                    <div
                                                         class="col-auto"
                                                         style="flex:1; white-space:nowrap"
                                                     >
-                                                    <a
+                                                        <a
                                                             name="action_move_priority"
                                                             type="object"
                                                         >
                                                         [~<field
-                                                                name="count_move_priority"
-                                                            />]
+                                                            name="count_move_priority"
+                                                        />]
                                                     </a>
+                                                    </div>
                                                 </div>
-                                            </div>
 
-
-                                            <a
+                                                <a
                                                     class="row mx-0"
                                                     style="align-items: center; display: flex"
                                                     name="action_picking_all_related"
                                                     type="object"
                                                 >
-                                                <div
+                                                    <div
                                                         name="count_picking_chain_progress"
                                                         class="col progress px-0"
                                                         style="background-color: #FFF"
                                                     >
-                                                    <div
+                                                        <div
                                                             class="progress-bar progress-bar-striped"
                                                             role="progressbar"
                                                             t-att-aria-valuenow="record.count_picking_chain_done.value"
@@ -643,12 +644,12 @@
                                                             t-att-aria-valuemax="record.count_picking_chain.value"
                                                             t-att-style="'width: ' + record.count_picking_chain_done.value / record.count_picking_chain.value * 100 + '%'"
                                                         >
-                                                        <field
+                                                            <field
                                                                 name="count_picking_chain_done"
                                                                 t-if="record.count_picking_chain_done.value > 0"
                                                             />
-                                                    </div>
-                                                    <!--div
+                                                        </div>
+                                                        <!--div
                                                         class="progress-bar progress-bar-striped"
                                                         role="progressbar"
                                                         t-att-aria-valuenow="record.count_picking_chain_waiting.value"
@@ -662,17 +663,17 @@
                                                             t-if="record.count_picking_chain_waiting.value > 0"
                                                         />
                                                     </div-->
-                                                </div>
-                                                <div
+                                                    </div>
+                                                    <div
                                                         class="col-auto px-1"
                                                         style="font-size:smaller"
                                                     >
                                                     /
                                                     <field name="count_picking_chain" />
                                                 </div>
-                                            </a>
+                                                </a>
+                                            </div>
                                         </div>
-                                      </div>
                                     </div>
                                 </div>
 
@@ -680,115 +681,119 @@
                                     class="container o_kanban_card_manage_pane dropdown-menu"
                                     role="menu"
                                 >
-                                 <div class="row">
-                                     <div
+                                    <div class="row">
+                                        <div
                                             class="col-6 o_kanban_card_manage_section o_kanban_manage_view"
                                             name="actions dropdown-menu-left-panel"
                                         >
-                                         <field
+                                            <field
                                                 name="is_action_lock_allowed"
                                                 invisible="1"
                                             />
-                                         <field
+                                            <field
                                                 name="is_action_unlock_allowed"
                                                 invisible="1"
                                             />
-                                         <field
+                                            <field
                                                 name="is_action_sleep_allowed"
                                                 invisible="1"
                                             />
-                                         <field
+                                            <field
                                                 name="is_action_wake_up_allowed"
                                                 invisible="1"
                                             />
-                                         <div
+                                            <div
                                                 role="menuitem"
                                                 class="o_kanban_card_manage_title"
                                             >
-                                            <span>Actions</span>
-                                        </div>
-                                        <t
+                                                <span>Actions</span>
+                                            </div>
+                                            <t
                                                 t-if="record.is_action_lock_allowed.raw_value"
                                             >
-                                             <div role="menuitem">
-                                                <a
+                                                <div role="menuitem">
+                                                    <a
                                                         name="action_lock"
                                                         type="object"
                                                         icon="fa-lock"
-                                                    ><span class="ms-2">Lock</span></a>
-                                             </div>
-                                        </t>
-                                        <t
+                                                    >
+                                                        <span class="ms-2">Lock</span>
+                                                    </a>
+                                                </div>
+                                            </t>
+                                            <t
                                                 t-if="record.is_action_unlock_allowed.raw_value"
                                             >
-                                            <div role="menuitem">
-                                                <a
+                                                <div role="menuitem">
+                                                    <a
                                                         name="action_unlock"
                                                         type="object"
                                                         icon="fa-unlock"
-                                                    ><span
-                                                            class="ms-2"
-                                                        >Unlock</span></a>
-                                            </div>
-                                        </t>
-                                        <t
+                                                    >
+                                                        <span class="ms-2">Unlock</span>
+                                                    </a>
+                                                </div>
+                                            </t>
+                                            <t
                                                 t-if="record.is_action_sleep_allowed.raw_value"
                                             >
-                                            <div role="menuitem">
-                                                <a
+                                                <div role="menuitem">
+                                                    <a
                                                         name="action_sleep"
                                                         type="object"
                                                         icon="fa-bed"
-                                                    ><span class="ms-2">Sleep</span></a>
-                                            </div>
-                                        </t>
-                                        <t
+                                                    >
+                                                        <span class="ms-2">Sleep</span>
+                                                    </a>
+                                                </div>
+                                            </t>
+                                            <t
                                                 t-if="record.is_action_wake_up_allowed.raw_value"
                                             >
-                                            <div role="menuitem">
-                                                <a
+                                                <div role="menuitem">
+                                                    <a
                                                         name="action_wake_up"
                                                         type="object"
                                                         icon="fa-bolt"
-                                                    ><span
+                                                    >
+                                                        <span
                                                             class="ms-2"
-                                                        >Wake Up</span></a>
-                                            </div>
-                                        </t>
-                                     </div>
-                                     <div
+                                                        >Wake Up</span>
+                                                    </a>
+                                                </div>
+                                            </t>
+                                        </div>
+                                        <div
                                             class="col-6 o_kanban_card_manage_section o_kanban_manage_reporting"
                                             name="dropdown-menu-right-panel"
-                                        >
-                                     </div>
-                                 </div>
-                                <div class="o_kanban_card_manage_settings row">
-                                    <div
+                                        />
+                                    </div>
+                                    <div class="o_kanban_card_manage_settings row">
+                                        <div
                                             role="menuitem"
                                             aria-haspopup="true"
                                             class="col-6"
                                         >
-                                        <ul
+                                            <ul
                                                 class="oe_kanban_colorpicker"
                                                 data-field="color"
                                                 role="popup"
                                             />
-                                    </div>
-                                    <div role="menuitem" class="col-6">
-                                        <t t-if="widget.editable">
-                                            <a
+                                        </div>
+                                        <div role="menuitem" class="col-6">
+                                            <t t-if="widget.editable">
+                                                <a
                                                     role="menuitem"
                                                     type="edit"
                                                     class="dropdown-item"
                                                 >Settings</a>
-                                        </t>
+                                            </t>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            </div>
                         </div>
                     </t>
-
                 </templates>
             </kanban>
         </field>
@@ -856,5 +861,4 @@
         <field name="action" ref="stock_release_channel_config_act_window" />
         <field name="sequence" eval="40" />
     </record>
-
 </odoo>

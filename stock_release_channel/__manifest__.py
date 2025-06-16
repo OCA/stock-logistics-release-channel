@@ -10,7 +10,7 @@
     "license": "AGPL-3",
     "author": "Camptocamp, BCIM, ACSONE SA/NV, Odoo Community Association (OCA)",
     "maintainers": ["sebalix", "jbaudoux", "mt-software-de"],
-    "website": "https://github.com/OCA/wms",
+    "website": "https://github.com/OCA/stock-logistics-release-channel",
     "depends": [
         "web",
         "stock_available_to_promise_release",  # OCA/wms

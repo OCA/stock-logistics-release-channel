@@ -15,9 +15,15 @@ from odoo.osv.expression import NEGATIVE_TERM_OPERATORS
 from odoo.tools import groupby
 from odoo.tools.safe_eval import (
     datetime as safe_datetime,
+)
+from odoo.tools.safe_eval import (
     dateutil as safe_dateutil,
+)
+from odoo.tools.safe_eval import (
     safe_eval,
     test_python_expr,
+)
+from odoo.tools.safe_eval import (
     time as safe_time,
 )
 
@@ -768,7 +774,7 @@ class StockReleaseChannel(models.Model):
         )
 
     def _get_next_pickings(self):
-        return getattr(self, "_get_next_pickings_{}".format(self.batch_mode))()
+        return getattr(self, f"_get_next_pickings_{self.batch_mode}")()
 
     def _get_pickings_to_release(self):
         """Get the pickings to release."""

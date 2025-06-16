@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-
     <record model="ir.model.access" id="stock_release_channel_access_all">
         <field name="name">stock.release.channel all users</field>
         <field name="model_id" ref="model_stock_release_channel" />
@@ -30,5 +29,4 @@
         <field name="perm_write" eval="1" />
         <field name="perm_unlink" eval="1" />
     </record>
-
 </odoo>
