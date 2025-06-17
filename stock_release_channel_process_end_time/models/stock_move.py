@@ -20,7 +20,7 @@ class StockMove(models.Model):
                 )
             )
         ):
-            values[
-                "date_deadline"
-            ] = self.picking_id.release_channel_id.process_end_date
+            values["date_deadline"] = (
+                self.picking_id.release_channel_id.process_end_date
+            )
         return values

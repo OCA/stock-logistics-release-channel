@@ -6,7 +6,6 @@ from odoo.exceptions import UserError
 
 
 class StockPicking(models.Model):
-
     _inherit = "stock.picking"
 
     # TODO: move this field to stock_release_channel so that we don't have to alter

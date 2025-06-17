@@ -11,7 +11,6 @@ from ..utils import float_to_time, time_to_datetime
 
 
 class StockReleaseChannel(models.Model):
-
     _inherit = "stock.release.channel"
     _order = "process_end_date, sequence, id"
 

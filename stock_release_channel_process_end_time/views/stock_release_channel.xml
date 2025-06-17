@@ -2,7 +2,6 @@
 <!-- Copyright 2023 ACSONE SA/NV
      License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
 <odoo>
-
     <record model="ir.ui.view" id="stock_release_channel_form_view">
         <field
             name="name"
@@ -13,16 +12,15 @@
             ref="stock_release_channel.stock_release_channel_form_view"
         />
         <field name="arch" type="xml">
-
             <xpath expr="//notebook" position="before">
                 <group>
                     <field name="process_end_time_can_edit" invisible="1" />
-                <field
+                    <field
                         name="process_end_time"
                         widget="float_time"
                         attrs="{'readonly': [('process_end_time_can_edit', '=', False)]}"
                     />
-                <field
+                    <field
                         name="process_end_date"
                         attrs="{'readonly': [('process_end_time_can_edit', '=', False)]}"
                     />
@@ -45,7 +43,6 @@
                 <field name="process_end_time" />
                 <field name="process_end_date" />
             </field>
-
         </field>
     </record>
 
@@ -98,11 +95,8 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
             </xpath>
         </field>
     </record>
-
-
 </odoo>
