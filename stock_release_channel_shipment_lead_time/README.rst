@@ -16,30 +16,30 @@ Release channel shipment lead time
 .. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
-.. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fwms-lightgray.png?logo=github
-    :target: https://github.com/OCA/wms/tree/16.0/stock_release_channel_shipment_lead_time
-    :alt: OCA/wms
+.. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fstock--logistics--release--channel-lightgray.png?logo=github
+    :target: https://github.com/OCA/stock-logistics-release-channel/tree/18.0/stock_release_channel_shipment_lead_time
+    :alt: OCA/stock-logistics-release-channel
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/wms-16-0/wms-16-0-stock_release_channel_shipment_lead_time
+    :target: https://translation.odoo-community.org/projects/stock-logistics-release-channel-18-0/stock-logistics-release-channel-18-0-stock_release_channel_shipment_lead_time
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runboat-Try%20me-875A7B.png
-    :target: https://runboat.odoo-community.org/builds?repo=OCA/wms&target_branch=16.0
+    :target: https://runboat.odoo-community.org/builds?repo=OCA/stock-logistics-release-channel&target_branch=18.0
     :alt: Try me on Runboat
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-Manage shipment date and delivery lead time on release channel.
-The shipment date is computed automatically base on process end date + shipment
-lead time days and warehouse calendar.
+Manage shipment date and delivery lead time on release channel. The
+shipment date is computed automatically base on process end date +
+shipment lead time days and warehouse calendar.
 
-Exclude deliveries promised after shipment date. A delivery with a deadline
-won't be assigned to a channel with a shipment date prior to the deadline. This
-allows to prevent to deliver a sales order with a commitment date in the
-future.
+Exclude deliveries promised after shipment date. A delivery with a
+deadline won't be assigned to a channel with a shipment date prior to
+the deadline. This allows to prevent to deliver a sales order with a
+commitment date in the future.
 
-Adapt computation of release ready to take into account the shipment lead time.
-A delivery part of a release channel won't be counted as release ready if the
-scheduled date is after the shipment date.
+Adapt computation of release ready to take into account the shipment
+lead time. A delivery part of a release channel won't be counted as
+release ready if the scheduled date is after the shipment date.
 
 Add the delivery date on the shipment advice.
 
@@ -56,10 +56,10 @@ Rename "Shipment date" to "Delivery date" as it is misleading
 Bug Tracker
 ===========
 
-Bugs are tracked on `GitHub Issues <https://github.com/OCA/wms/issues>`_.
+Bugs are tracked on `GitHub Issues <https://github.com/OCA/stock-logistics-release-channel/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/wms/issues/new?body=module:%20stock_release_channel_shipment_lead_time%0Aversion:%2016.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/OCA/stock-logistics-release-channel/issues/new?body=module:%20stock_release_channel_shipment_lead_time%0Aversion:%2018.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -67,26 +67,28 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * Camptocamp
 * BCIM
 
 Contributors
-~~~~~~~~~~~~
+------------
 
-* Jacques-Etienne Baudoux (BCIM) <je@bcim.be>
-* `Trobz <https://trobz.com>`_:
+- Jacques-Etienne Baudoux (BCIM) <je@bcim.be>
 
-    * Hoang Diep <hoang@trobz.com>
+- `Trobz <https://trobz.com>`__:
+
+     - Hoang Diep <hoang@trobz.com>
 
 Other credits
-~~~~~~~~~~~~~
+-------------
 
-The development of this module has been financially supported by Camptocamp
+The development of this module has been financially supported by
+Camptocamp
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 This module is maintained by the OCA.
 
@@ -106,6 +108,6 @@ Current `maintainer <https://odoo-community.org/page/maintainer-role>`__:
 
 |maintainer-jbaudoux| 
 
-This module is part of the `OCA/wms <https://github.com/OCA/wms/tree/16.0/stock_release_channel_shipment_lead_time>`_ project on GitHub.
+This module is part of the `OCA/stock-logistics-release-channel <https://github.com/OCA/stock-logistics-release-channel/tree/18.0/stock_release_channel_shipment_lead_time>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.
