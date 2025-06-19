@@ -6,7 +6,7 @@
     "version": "16.0.1.1.0",
     "development_status": "Beta",
     "category": "Uncategorized",
-    "website": "https://github.com/OCA/wms",
+    "website": "https://github.com/OCA/stock-logistics-release-channel",
     "author": "Camptocamp, BCIM, Odoo Community Association (OCA)",
     "maintainers": ["jbaudoux"],
     "license": "AGPL-3",
