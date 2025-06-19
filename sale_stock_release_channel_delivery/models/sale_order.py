@@ -6,7 +6,6 @@ from odoo.osv import expression
 
 
 class SaleOrder(models.Model):
-
     _inherit = "sale.order"
 
     @property
