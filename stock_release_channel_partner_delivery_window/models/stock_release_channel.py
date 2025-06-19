@@ -7,7 +7,6 @@ from odoo import api, fields, models
 
 
 class StockReleaseChannel(models.Model):
-
     _inherit = "stock.release.channel"
 
     respect_partner_delivery_time_windows = fields.Boolean(

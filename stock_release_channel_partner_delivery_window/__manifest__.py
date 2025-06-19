@@ -10,7 +10,7 @@
     "license": "AGPL-3",
     "maintainers": ["jbaudoux"],
     "author": "Camptocamp, BCIM, Odoo Community Association (OCA)",
-    "website": "https://github.com/OCA/wms",
+    "website": "https://github.com/OCA/stock-logistics-release-channel",
     "depends": [
         "stock_partner_delivery_window",
         "stock_release_channel_shipment_lead_time",
