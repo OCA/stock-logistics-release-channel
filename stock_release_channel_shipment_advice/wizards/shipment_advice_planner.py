@@ -5,7 +5,6 @@ from odoo import api, fields, models
 
 
 class ShipmentAdvicePlanner(models.TransientModel):
-
     _inherit = "shipment.advice.planner"
 
     release_channel_id = fields.Many2one(

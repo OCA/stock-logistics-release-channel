@@ -2,7 +2,6 @@
 <!-- Copyright 2023 ACSONE SA/NV
      License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
 <odoo>
-
     <record model="ir.ui.view" id="shipment_advice_planner_form_view">
         <field name="model">shipment.advice.planner</field>
         <field
@@ -15,7 +14,4 @@
             </xpath>
         </field>
     </record>
-
-
-
 </odoo>

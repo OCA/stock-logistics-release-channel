@@ -16,14 +16,14 @@ Stock Release Channel Shipment Advice
 .. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
-.. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fwms-lightgray.png?logo=github
-    :target: https://github.com/OCA/wms/tree/16.0/stock_release_channel_shipment_advice
-    :alt: OCA/wms
+.. |badge3| image:: https://img.shields.io/badge/github-OCA%2Fstock--logistics--release--channel-lightgray.png?logo=github
+    :target: https://github.com/OCA/stock-logistics-release-channel/tree/18.0/stock_release_channel_shipment_advice
+    :alt: OCA/stock-logistics-release-channel
 .. |badge4| image:: https://img.shields.io/badge/weblate-Translate%20me-F47D42.png
-    :target: https://translation.odoo-community.org/projects/wms-16-0/wms-16-0-stock_release_channel_shipment_advice
+    :target: https://translation.odoo-community.org/projects/stock-logistics-release-channel-18-0/stock-logistics-release-channel-18-0-stock_release_channel_shipment_advice
     :alt: Translate me on Weblate
 .. |badge5| image:: https://img.shields.io/badge/runboat-Try%20me-875A7B.png
-    :target: https://runboat.odoo-community.org/builds?repo=OCA/wms&target_branch=16.0
+    :target: https://runboat.odoo-community.org/builds?repo=OCA/stock-logistics-release-channel&target_branch=18.0
     :alt: Try me on Runboat
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
@@ -31,9 +31,9 @@ Stock Release Channel Shipment Advice
 This module is used to plan the shipment advices for released pickings
 in a stock release channel.
 
-As this is the base module, it only provides a simple planning mode.
-All the ready pickings of a release channel are grouped together
-to result in a single shipping advice per warehouse.
+As this is the base module, it only provides a simple planning mode. All
+the ready pickings of a release channel are grouped together to result
+in a single shipping advice per warehouse.
 
 **Table of contents**
 
@@ -45,17 +45,17 @@ Usage
 
 To use this module, you need to:
 
-#. Go to Inventory>Release Channels.
-#. Select a channel with released picking.
-#. Click on "Plan shipment" button.
+1. Go to Inventory>Release Channels.
+2. Select a channel with released picking.
+3. Click on "Plan shipment" button.
 
 Bug Tracker
 ===========
 
-Bugs are tracked on `GitHub Issues <https://github.com/OCA/wms/issues>`_.
+Bugs are tracked on `GitHub Issues <https://github.com/OCA/stock-logistics-release-channel/issues>`_.
 In case of trouble, please check there if your issue has already been reported.
 If you spotted it first, help us to smash it by providing a detailed and welcomed
-`feedback <https://github.com/OCA/wms/issues/new?body=module:%20stock_release_channel_shipment_advice%0Aversion:%2016.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
+`feedback <https://github.com/OCA/stock-logistics-release-channel/issues/new?body=module:%20stock_release_channel_shipment_advice%0Aversion:%2018.0%0A%0A**Steps%20to%20reproduce**%0A-%20...%0A%0A**Current%20behavior**%0A%0A**Expected%20behavior**>`_.
 
 Do not contact contributors directly about support or help with technical issues.
 
@@ -63,20 +63,20 @@ Credits
 =======
 
 Authors
-~~~~~~~
+-------
 
 * ACSONE SA/NV
 * BCIM
 
 Contributors
-~~~~~~~~~~~~
+------------
 
-* Souheil Bejaoui <souheil.bejaoui@acsone.eu>
-* Laurent Mignon <laurent.mignon@acsone.eu>
-* Jacques-Etienne Baudoux <je@bcim.be>
+- Souheil Bejaoui <souheil.bejaoui@acsone.eu>
+- Laurent Mignon <laurent.mignon@acsone.eu>
+- Jacques-Etienne Baudoux <je@bcim.be>
 
 Maintainers
-~~~~~~~~~~~
+-----------
 
 This module is maintained by the OCA.
 
@@ -96,6 +96,6 @@ Current `maintainer <https://odoo-community.org/page/maintainer-role>`__:
 
 |maintainer-jbaudoux| 
 
-This module is part of the `OCA/wms <https://github.com/OCA/wms/tree/16.0/stock_release_channel_shipment_advice>`_ project on GitHub.
+This module is part of the `OCA/stock-logistics-release-channel <https://github.com/OCA/stock-logistics-release-channel/tree/18.0/stock_release_channel_shipment_advice>`_ project on GitHub.
 
 You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.

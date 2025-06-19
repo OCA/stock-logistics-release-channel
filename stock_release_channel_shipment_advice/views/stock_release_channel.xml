@@ -2,7 +2,6 @@
 <!-- Copyright 2023 ACSONE SA/NV
      License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
 <odoo>
-
     <record model="ir.ui.view" id="stock_release_channel_form_view">
         <field name="model">stock.release.channel</field>
         <field
@@ -58,17 +57,12 @@
                         groups="stock.group_stock_manager"
                         name="action_plan_shipment"
                     >
-                        <a
-                            name="button_plan_shipments"
-                            type="object"
-                            icon="fa-truck"
-                        ><span class="ms-2">Plan Shipments</span></a>
+                        <a name="button_plan_shipments" type="object" icon="fa-truck">
+                            <span class="ms-2">Plan Shipments</span>
+                        </a>
                     </div>
                 </t>
             </xpath>
         </field>
     </record>
-
-
-
 </odoo>
