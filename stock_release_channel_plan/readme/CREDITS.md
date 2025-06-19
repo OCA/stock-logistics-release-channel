@@ -1,3 +1,3 @@
 **Financial support**
 
-* Alcyon Belux
+- Alcyon Belux

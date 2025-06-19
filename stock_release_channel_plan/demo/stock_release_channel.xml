@@ -2,7 +2,6 @@
 <!-- Copyright 2023 Jacques-Etienne Baudoux (BCIM) <je@bcim.be>
      License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
 <odoo noupdate="1">
-
     <record model="stock.release.channel" id="stock_release_channel_mon_thu1">
         <field name="name">Channel 1 (Mon/Thu)</field>
         <field name="rule_domain">[]</field>
@@ -33,5 +32,4 @@
         <field name="rule_domain">[]</field>
         <field name="state">asleep</field>
     </record>
-
 </odoo>

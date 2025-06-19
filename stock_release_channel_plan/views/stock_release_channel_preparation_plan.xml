@@ -3,7 +3,6 @@
      Copyright 2023 Jacques-Etienne Baudoux (BCIM) <je@bcim.be>
      License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
 <odoo>
-
     <record model="ir.ui.view" id="stock_release_channel_preparation_plan_search_view">
         <field name="model">stock.release.channel.preparation.plan</field>
         <field name="arch" type="xml">
@@ -18,7 +17,6 @@
             </search>
         </field>
     </record>
-
 
     <record model="ir.ui.view" id="stock_release_channel_preparation_plan_tree_view">
         <field name="model">stock.release.channel.preparation.plan</field>
@@ -35,7 +33,6 @@
             </tree>
         </field>
     </record>
-
 
     <record model="ir.ui.view" id="stock_release_channel_preparation_plan_form_view">
         <field name="model">stock.release.channel.preparation.plan</field>
@@ -100,5 +97,4 @@
         <field name="action" ref="stock_release_channel_preparation_plan_act_window" />
         <field name="sequence" eval="7" />
     </record>
-
 </odoo>

@@ -11,7 +11,6 @@
             name="release_channel_ids"
             eval="[Command.set([ref('stock_release_channel_plan.stock_release_channel_mon_thu1'),ref('stock_release_channel_plan.stock_release_channel_mon_thu2')])]"
         />
-
     </record>
     <record
         model="stock.release.channel.preparation.plan"
