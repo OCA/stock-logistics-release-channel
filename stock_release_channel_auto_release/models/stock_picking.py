@@ -6,7 +6,6 @@ from odoo.osv.expression import AND
 
 
 class StockPicking(models.Model):
-
     _inherit = "stock.picking"
 
     @api.model

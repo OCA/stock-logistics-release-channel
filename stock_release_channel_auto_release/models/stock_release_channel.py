@@ -6,7 +6,6 @@ from odoo.osv.expression import AND, NEGATIVE_TERM_OPERATORS, OR
 
 
 class StockReleaseChannel(models.Model):
-
     _inherit = "stock.release.channel"
 
     release_mode = fields.Selection(
