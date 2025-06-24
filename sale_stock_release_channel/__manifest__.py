@@ -7,7 +7,7 @@
     "license": "AGPL-3",
     "maintainers": ["jbaudoux"],
     "author": "BCIM, Odoo Community Association (OCA)",
-    "website": "https://github.com/OCA/wms",
+    "website": "https://github.com/OCA/stock-logistics-release-channel",
     "depends": [
         "sale",
         "stock_release_channel",
