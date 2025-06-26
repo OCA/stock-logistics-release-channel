@@ -65,13 +65,13 @@ class TestSaleStockReleaseChannelDeliveryDate(
                 "order_line": [
                     Command.create(
                         {
-                            "product_id": self.consumable_product.id,
+                            "product_id": self.product.id,
                             "product_uom_qty": 22,
                         }
                     ),
                     Command.create(
                         {
-                            "product_id": self.consumable_product.id,
+                            "product_id": self.product.id,
                             "product_uom_qty": 22,
                         }
                     ),
@@ -92,7 +92,7 @@ class TestSaleStockReleaseChannelDeliveryDate(
                 "order_line": [
                     Command.create(
                         {
-                            "product_id": self.consumable_product.id,
+                            "product_id": self.product.id,
                             "product_uom_qty": 22,
                             "customer_lead": 5,
                         }
