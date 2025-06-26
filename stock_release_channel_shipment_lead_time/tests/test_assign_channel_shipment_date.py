@@ -3,7 +3,7 @@
 
 
 from odoo import fields
-from odoo.tests.common import Form
+from odoo.tests import Form
 
 from odoo.addons.queue_job.tests.common import trap_jobs
 from odoo.addons.stock_release_channel.tests.common import ReleaseChannelCase

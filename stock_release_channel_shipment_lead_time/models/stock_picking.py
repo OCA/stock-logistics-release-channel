@@ -9,7 +9,8 @@ class StockPicking(models.Model):
 
     @property
     def _release_channel_possible_candidate_domain_extras(self):
-        # Exclude deliveries (OUT pickings) when the date_deadline is after the shipment date
+        # Exclude deliveries (OUT pickings) when the date_deadline is after the shipment
+        # date
         domains = super()._release_channel_possible_candidate_domain_extras
 
         date = self.date_deadline
@@ -46,10 +47,10 @@ class StockPicking(models.Model):
         now = fields.Datetime.now()
         cond = f"""
             CASE WHEN stock_release_channel.process_end_date is not null
-            THEN date(stock_picking.scheduled_date at time zone 'UTC' at time zone wh.tz)
-            < {end_date} + interval '1 day'
-            ELSE date(stock_picking.scheduled_date at time zone 'UTC' at time zone wh.tz)
-            < date(TIMESTAMP %s at time zone wh.tz) + {lead_time} + interval '1 day'
-            END
+            THEN date(stock_picking.scheduled_date at time zone 'UTC' at time zone
+            wh.tz) < {end_date} + interval '1 day'
+            ELSE date(stock_picking.scheduled_date at time zone 'UTC' at time zone
+            wh.tz) < date(TIMESTAMP %s at time zone wh.tz) + {lead_time} + interval
+            '1 day' END
         """
         return cond, [now]

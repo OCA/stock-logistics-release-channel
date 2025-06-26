@@ -6,7 +6,10 @@
         <field name="inherit_id" ref="shipment_advice.shipment_advice_view_form" />
         <field name="arch" type="xml">
             <field name="departure_date" position="after">
-                <field name="delivery_date" />
+                <field
+                    name="delivery_date"
+                    readonly="state not in ('draft','confirmed','in_progress')"
+                />
             </field>
         </field>
     </record>

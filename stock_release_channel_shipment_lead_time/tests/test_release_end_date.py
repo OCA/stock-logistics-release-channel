@@ -27,7 +27,7 @@ class ReleaseChannelEndDateCase(ChannelReleaseCase):
         self.channel.action_sleep()
         self.channel.invalidate_recordset()
         # Execute the picking channel assignations
-        self.channel.with_context(test_queue_job_no_delay=True).action_wake_up()
+        self.channel.with_context(queue_job__no_delay=True).action_wake_up()
 
         self.assertEqual(pickings, self.channel.picking_ids)
         # at this stage, the pickings are not ready to be released as the
