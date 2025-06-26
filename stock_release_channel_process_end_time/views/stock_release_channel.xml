@@ -18,11 +18,11 @@
                     <field
                         name="process_end_time"
                         widget="float_time"
-                        attrs="{'readonly': [('process_end_time_can_edit', '=', False)]}"
+                        readonly="not process_end_time_can_edit"
                     />
                     <field
                         name="process_end_date"
-                        attrs="{'readonly': [('process_end_time_can_edit', '=', False)]}"
+                        readonly="not process_end_time_can_edit"
                     />
                 </group>
             </xpath>
@@ -89,7 +89,7 @@
                                 <field
                                     name="process_end_date"
                                     title="End Date"
-                                    attrs="{'invisible': [('process_end_date', '=', False)]}"
+                                    invisible="not process_end_date"
                                     class="badge rounded-pill bg-o-color-1 mb4"
                                 />
                             </div>

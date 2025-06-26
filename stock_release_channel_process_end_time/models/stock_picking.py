@@ -3,6 +3,7 @@
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
+from odoo.tools import SQL
 
 
 class StockPicking(models.Model):
@@ -37,10 +38,10 @@ class StockPicking(models.Model):
         now = fields.Datetime.now()
         cond = f"""
             CASE WHEN stock_release_channel.process_end_date is not null
-            THEN date(stock_picking.scheduled_date at time zone 'UTC' at time zone wh.tz)
-            < {end_date} + interval '1 day'
-            ELSE date(stock_picking.scheduled_date at time zone 'UTC' at time zone wh.tz)
-            < date(TIMESTAMP %s at time zone wh.tz) + interval '1 day'
+            THEN date(stock_picking.scheduled_date at time zone 'UTC' at time zone
+            wh.tz) < {end_date} + interval '1 day'
+            ELSE date(stock_picking.scheduled_date at time zone 'UTC' at time zone
+            wh.tz) < date(TIMESTAMP %s at time zone wh.tz) + interval '1 day'
             END
         """
         return cond, [now]
@@ -87,10 +88,11 @@ class StockPicking(models.Model):
         query += cond_q
 
         if value:
-            operator_inselect = "inselect" if operator == "=" else "not inselect"
+            operator_inselect = "in" if operator == "=" else "not in"
         else:
-            operator_inselect = "not inselect" if operator == "=" else "inselect"
-        return [("id", operator_inselect, (query, params))]
+            operator_inselect = "not in" if operator == "=" else "in"
+        sql = SQL(f"({query})", *params)
+        return [("id", operator_inselect, sql)]
 
     def _after_release_set_expected_date(self):
         enabled_update_scheduled_date = bool(

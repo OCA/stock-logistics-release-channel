@@ -38,7 +38,7 @@ class StockReleaseChannel(models.Model):
 
     @api.depends_context("uid")
     def _compute_process_end_time_can_edit(self):
-        if self.user_has_groups("stock.group_stock_manager"):
+        if self.env.user.has_group("stock.group_stock_manager"):
             self.update({"process_end_time_can_edit": True})
         else:
             self.update({"process_end_time_can_edit": False})
