@@ -5,7 +5,7 @@
 {
     "name": "Stock Release Channels",
     "summary": "Manage workload in WMS with release channels",
-    "version": "16.0.3.1.0",
+    "version": "18.0.1.0.0",
     "development_status": "Beta",
     "license": "AGPL-3",
     "author": "Camptocamp, BCIM, ACSONE SA/NV, Odoo Community Association (OCA)",
@@ -13,7 +13,7 @@
     "website": "https://github.com/OCA/stock-logistics-release-channel",
     "depends": [
         "web",
-        "stock_available_to_promise_release",  # OCA/wms
+        "stock_available_to_promise_release",  # OCA/stock-logistics-reservation
         "queue_job",  # OCA/queue
     ],
     "data": [
@@ -31,7 +31,7 @@
     "assets": {
         "web.assets_backend": [
             "stock_release_channel/static/src/scss/stock_release_channel.scss",
-            "stock_release_channel/static/src/js/progressbar_fractional_widget.js",
+            "stock_release_channel/static/src/js/progressbar_fractional_widget.esm.js",
         ],
     },
     "installable": True,

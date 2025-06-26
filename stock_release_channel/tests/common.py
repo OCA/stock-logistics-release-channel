@@ -6,7 +6,7 @@ import logging
 
 from odoo_test_helper import FakeModelLoader
 
-from odoo import _, fields
+from odoo import fields
 from odoo.tests import common
 from odoo.tests.common import TransactionCase
 
@@ -54,10 +54,20 @@ class ReleaseChannelCase(common.TransactionCase):
         )
         cls.wh.delivery_route_id.write({"available_to_promise_defer_pull": True})
         cls.product1 = cls.env["product.product"].create(
-            {"name": "Test Product 1", "barcode": "test", "type": "product"}
+            {
+                "name": "Test Product 1",
+                "barcode": "test",
+                "type": "consu",
+                "is_storable": True,
+            }
         )
         cls.product2 = cls.env["product.product"].create(
-            {"name": "Test Product 2", "barcode": "test2", "type": "product"}
+            {
+                "name": "Test Product 2",
+                "barcode": "test2",
+                "type": "consu",
+                "is_storable": True,
+            }
         )
         # Set product1 as default product
         cls.product = cls.product1
@@ -214,7 +224,7 @@ class ChannelReleaseCase(PromiseReleaseCommonCase):
 
     def _action_done_picking(self, picking):
         for line in picking.move_line_ids:
-            line.qty_done = line.reserved_qty
+            line.picked = True
         picking._action_done()
 
     def _assert_action_nothing_in_the_queue(self, action):
@@ -223,7 +233,7 @@ class ChannelReleaseCase(PromiseReleaseCommonCase):
             {
                 "effect": {
                     "fadeout": "fast",
-                    "message": _("Nothing in the queue!"),
+                    "message": self.env._("Nothing in the queue!"),
                     "img_url": "/web/static/src/img/smile.svg",
                     "type": "rainbow_man",
                 }

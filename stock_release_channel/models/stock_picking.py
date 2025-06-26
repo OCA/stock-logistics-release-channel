@@ -2,7 +2,7 @@
 # Copyright 2024 Jacques-Etienne Baudoux (BCIM) <je@bcim.be>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html)
 
-from odoo import _, exceptions, fields, models
+from odoo import exceptions, fields, models
 from odoo.osv import expression
 
 from odoo.addons.queue_job.job import identity_exact
@@ -49,7 +49,7 @@ class StockPicking(models.Model):
         for picking in self:
             picking.with_delay(
                 identity_key=identity_exact,
-                description=_("Assign release channel on %s") % picking.name,
+                description=self.env._("Assign release channel on %s") % picking.name,
             ).assign_release_channel()
 
     def assign_release_channel(self):
@@ -65,7 +65,7 @@ class StockPicking(models.Model):
             channel = record.release_channel_id
             if channel.release_forbidden:
                 raise exceptions.UserError(
-                    _(
+                    self.env._(
                         "You cannot release delivery of the channel %s because "
                         "it has been forbidden in the release channel configuration"
                     )

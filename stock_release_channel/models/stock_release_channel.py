@@ -10,7 +10,7 @@ from operator import itemgetter
 
 import pytz
 
-from odoo import _, api, exceptions, fields, models
+from odoo import api, exceptions, fields, models
 from odoo.osv.expression import NEGATIVE_TERM_OPERATORS
 from odoo.tools import groupby
 from odoo.tools.safe_eval import (
@@ -200,9 +200,9 @@ class StockReleaseChannel(models.Model):
     last_done_picking_date_done = fields.Datetime(compute="_compute_last_done_picking")
     state = fields.Selection(
         selection=[("open", "Open"), ("locked", "Locked"), ("asleep", "Asleep")],
-        help="The state allows you to control the availability of the release channel.\n"
-        "* Open: Manual and automatic picking assignment to the release is effective "
-        "and release operations are allowed.\n"
+        help="The state allows you to control the availability of the release channel."
+        "\n * Open: Manual and automatic picking assignment to the release is effective"
+        " and release operations are allowed.\n"
         "* Locked: Release operations are forbidden. (Assignement processes are "
         "still working)\n"
         "* Asleep: Assigned pickings not processed are unassigned from the release "
@@ -605,7 +605,7 @@ class StockReleaseChannel(models.Model):
                 "channel, you should add a final catch-all rule"
             )
             _logger.warning(message_template, {"picking_name": picking.name})
-            message = _(message_template, picking_name=picking.name)
+            message = self.env._(message_template, picking_name=picking.name)
         return message
 
     def _assign_release_channel_additional_filter(self, pickings):
@@ -640,8 +640,9 @@ class StockReleaseChannel(models.Model):
             safe_eval(expr, eval_context, mode="exec", nocopy=True)
         except Exception as err:
             raise exceptions.UserError(
-                _(
-                    "Error when evaluating the channel's code:\n %(name)s \n(%(error)s)",
+                self.env._(
+                    "Error when evaluating the channel's code:"
+                    "\n %(name)s \n(%(error)s)",
                     name=self.name,
                     error=err,
                 )
@@ -747,7 +748,7 @@ class StockReleaseChannel(models.Model):
         return self._build_action(
             "stock.action_picking_tree_all",
             self.picking_chain_ids,
-            _("All Related Transfers"),
+            self.env._("All Related Transfers"),
             context={"search_default_available": 1, "search_default_picking_type": 1},
         )
 
@@ -759,7 +760,9 @@ class StockReleaseChannel(models.Model):
         action["context"] = {}
         if not self.last_done_picking_id:
             raise exceptions.UserError(
-                _("Channel %(name)s has no validated transfer yet.", name=self.name)
+                self.env._(
+                    "Channel %(name)s has no validated transfer yet.", name=self.name
+                )
             )
         action["res_id"] = self.last_done_picking_id.id
         return action
@@ -784,7 +787,9 @@ class StockReleaseChannel(models.Model):
 
     def _get_next_pickings_max(self):
         if not self.max_batch_mode:
-            raise exceptions.UserError(_("No Max transfers to release is configured."))
+            raise exceptions.UserError(
+                self.env._("No Max transfers to release is configured.")
+            )
 
         waiting_domain = self._field_picking_domains()["waiting"]
         waiting_domain += [("release_channel_id", "=", self.id)]
@@ -793,7 +798,7 @@ class StockReleaseChannel(models.Model):
         release_limit = max(self.max_batch_mode - released_in_progress, 0)
         if not release_limit:
             raise exceptions.UserError(
-                _(
+                self.env._(
                     "The number of released transfers in"
                     " progress is already at the maximum."
                 )
@@ -809,7 +814,7 @@ class StockReleaseChannel(models.Model):
         for rec in self:
             if not rec.is_release_allowed:
                 raise exceptions.UserError(
-                    _(
+                    self.env._(
                         "The release of pickings is not allowed for channel %(name)s.",
                         name=rec.name,
                     )
@@ -823,7 +828,7 @@ class StockReleaseChannel(models.Model):
             return {
                 "effect": {
                     "fadeout": "fast",
-                    "message": _("Nothing in the queue!"),
+                    "message": self.env._("Nothing in the queue!"),
                     "img_url": "/web/static/src/img/smile.svg",
                     "type": "rainbow_man",
                 }
@@ -834,7 +839,7 @@ class StockReleaseChannel(models.Model):
         for rec in self:
             if not rec.is_action_lock_allowed:
                 raise exceptions.UserError(
-                    _(
+                    self.env._(
                         "Action 'Lock' is not allowed for channel %(name)s.",
                         name=rec.name,
                     )
@@ -844,7 +849,7 @@ class StockReleaseChannel(models.Model):
         for rec in self:
             if not rec.is_action_unlock_allowed:
                 raise exceptions.UserError(
-                    _(
+                    self.env._(
                         "Action 'Unlock' is not allowed for channel %(name)s.",
                         name=rec.name,
                     )
@@ -854,7 +859,7 @@ class StockReleaseChannel(models.Model):
         for rec in self:
             if not rec.is_action_sleep_allowed:
                 raise exceptions.UserError(
-                    _(
+                    self.env._(
                         "Action 'Sleep' is not allowed for channel %(name)s.",
                         name=rec.name,
                     )
@@ -864,7 +869,7 @@ class StockReleaseChannel(models.Model):
         for rec in self:
             if not rec.is_action_wake_up_allowed:
                 raise exceptions.UserError(
-                    _(
+                    self.env._(
                         "Action 'Wake Up' is not allowed for channel %(name)s.",
                         name=rec.name,
                     )

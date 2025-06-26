@@ -133,6 +133,7 @@ class TestReleaseChannel(ReleaseChannelCase):
         move.picking_id.assign_release_channel()
         self.assertEqual(move.picking_id.release_channel_id.id, self.default_channel.id)
         self.assertEqual(self.default_channel.open_picking_ids, move.picking_id)
-        move.quantity_done = move.product_uom_qty
+        move.picked = True
+        move.quantity = move.product_uom_qty
         move.picking_id._action_done()
         self.assertFalse(self.default_channel.open_picking_ids)
