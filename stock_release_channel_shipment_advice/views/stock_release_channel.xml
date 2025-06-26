@@ -15,7 +15,7 @@
                     type="object"
                     string="Plan Shipment"
                     groups="stock.group_stock_manager"
-                    attrs="{'invisible': [('can_plan_shipment', '=', False)]}"
+                    invisible="not can_plan_shipment"
                 />
             </xpath>
             <xpath expr="//div[@name='button_box']" position="inside">
@@ -25,16 +25,13 @@
                     name="button_show_shipment_advice"
                     icon="fa-calendar"
                     string="Shipment Advice"
-                    context="{'default_release_channel_id':active_id}"
+                    context="{'default_release_channel_id':id}"
                 />
             </xpath>
             <xpath expr="//field[@name='release_mode']" position="before">
                 <field name="can_plan_shipment" invisible="1" />
                 <field name="shipment_planning_method" />
-                <field
-                    name="dock_id"
-                    attrs="{'invisible': [('warehouse_id', '=', False)]}"
-                />
+                <field name="dock_id" invisible="not warehouse_id" />
             </xpath>
         </field>
     </record>
@@ -46,10 +43,7 @@
             ref="stock_release_channel.stock_release_channel_kanban_view"
         />
         <field name="arch" type="xml">
-            <xpath
-                expr="//div[@name='actions dropdown-menu-left-panel']"
-                position="inside"
-            >
+            <xpath expr="//div[hasclass('o_kanban_manage_view')]" position="inside">
                 <field name="can_plan_shipment" invisible="1" />
                 <t t-if="record.can_plan_shipment.raw_value">
                     <div

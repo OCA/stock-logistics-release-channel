@@ -10,7 +10,5 @@ class ShipmentAdvice(models.Model):
     release_channel_id = fields.Many2one(
         comodel_name="stock.release.channel",
         string="Release Channel",
-        states={"draft": [("readonly", False)]},
-        readonly=True,
         check_company=True,
     )

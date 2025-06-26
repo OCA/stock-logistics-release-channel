@@ -3,7 +3,7 @@
 
 
 from odoo.exceptions import UserError, ValidationError
-from odoo.tests.common import Form
+from odoo.tests import Form
 
 from odoo.addons.stock_release_channel.tests.common import ChannelReleaseCase
 
@@ -19,7 +19,16 @@ class TestStockReleaseChannelShipmentAdvice(ChannelReleaseCase):
         cls.channel.picking_ids.action_assign()
         cls.dock = cls.env.ref("shipment_advice.stock_dock_demo")
         cls.dock.warehouse_id = cls.wh
-        cls.warehouse2 = cls.env.ref("stock.stock_warehouse_shop0")
+        partner = cls.env["res.partner"].create({"name": "Test Warehouse Partner"})
+        # Create second warehouse
+        cls.warehouse2 = cls.env["stock.warehouse"].create(
+            {
+                "name": "Test Warehouse 2",
+                "code": "TST2",
+                "partner_id": partner.id,
+                "company_id": cls.env.ref("base.main_company").id,
+            }
+        )
 
     def test_can_plan_shipment(self):
         """plan shipment isn't allowed when the planning method is none or when no

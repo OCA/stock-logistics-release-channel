@@ -1,7 +1,7 @@
 # Copyright 2023 ACSONE SA/NV
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError, ValidationError
 from odoo.models import NewId
 
@@ -35,8 +35,8 @@ class StockReleaseChannel(models.Model):
         context = dict(self.env.context, search_default_today=1)
         return {
             "type": "ir.actions.act_window",
-            "name": _("Shipment Advice"),
-            "view_mode": "tree,calendar,form",
+            "name": self.env._("Shipment Advice"),
+            "view_mode": "list,calendar,form",
             "res_model": self.shipment_advice_ids._name,
             "domain": [("release_channel_id", "=", self.id)],
             "context": context,
@@ -81,14 +81,14 @@ class StockReleaseChannel(models.Model):
     def button_plan_shipments(self):
         self.ensure_one()
         if not self.can_plan_shipment:
-            raise UserError(_("Shipment planning not allowed"))
+            raise UserError(self.env._("Shipment planning not allowed"))
         shipment_advices = self._plan_shipments()
         if not shipment_advices:
             return {}
         return {
             "type": "ir.actions.act_window",
-            "name": _("Shipment Advice"),
-            "view_mode": "tree,form",
+            "name": self.env._("Shipment Advice"),
+            "view_mode": "list,form",
             "res_model": shipment_advices._name,
             "domain": [("id", "in", shipment_advices.ids)],
             "context": self.env.context,
@@ -125,7 +125,7 @@ class StockReleaseChannel(models.Model):
                 continue
             if rec.dock_id and rec.dock_id.warehouse_id != rec.warehouse_id:
                 raise ValidationError(
-                    _("The dock doesn't belong to the selected warehouse.")
+                    self.env._("The dock doesn't belong to the selected warehouse.")
                 )
 
     @api.onchange("warehouse_id", "dock_id", "picking_to_plan_ids")
