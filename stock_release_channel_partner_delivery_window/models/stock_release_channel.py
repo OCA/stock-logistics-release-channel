@@ -90,7 +90,10 @@ class StockReleaseChannel(models.Model):
                 # On the first day, we need a window that ends after current
                 # delivery time. Afterwards, we just need a window.
                 windows = partner.delivery_time_window_ids.filtered(
-                    lambda w: str(weekday + inc)
+                    lambda w,
+                    weekday=weekday,
+                    inc=inc,
+                    delivery_date_tz=delivery_date_tz: str(weekday + inc)
                     in w.time_window_weekday_ids.mapped("name")
                     and (inc or w.get_time_window_end_time() >= delivery_date_tz.time())
                 )
@@ -104,9 +107,11 @@ class StockReleaseChannel(models.Model):
             # Postpone the delivery date to that found window
             delivery_date_tz = datetime.combine(
                 (fields.Datetime.add(delivery_date_tz, days=inc)).date(),
-                max(w.get_time_window_start_time(), delivery_date_tz.time())
-                if not inc
-                else w.get_time_window_start_time(),
+                (
+                    max(w.get_time_window_start_time(), delivery_date_tz.time())
+                    if not inc
+                    else w.get_time_window_start_time()
+                ),
                 tzinfo=delivery_date_tz.tzinfo,
             )
             delivery_date = self._naive(delivery_date_tz)
