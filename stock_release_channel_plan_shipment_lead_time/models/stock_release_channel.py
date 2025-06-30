@@ -33,7 +33,7 @@ class StockReleaseChannel(models.Model):
             for wd in delivery_weekdays:
                 if channel.warehouse_id.calendar_id:
                     # To consider days off in the calendar, we look for the next date
-                    #  from today on whose weekday matches with current delivery weekday.
+                    # from today on whose weekday matches with current delivery weekday.
                     # We then deduce the lead time using the calendar to find a weekday
                     #  that is open.
                     # As this serves for helping in configuring the static preparation

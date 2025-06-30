@@ -57,7 +57,7 @@ class TestReleaseChannelLeadTimeWeekday(ReleaseChannelCase):
         #  rely on today
         for weekday in range(1, 8):
             self.default_channel.write({"delivery_weekday_ids": [Command.clear()]})
-            with freeze_time("2024-01-0%s" % weekday):
+            with freeze_time(f"2024-01-0{weekday}"):
                 self.assertFalse(self.default_channel.preparation_weekday_ids)
                 self.default_channel.shipment_lead_time = 3
                 self.default_channel.write(
@@ -113,7 +113,7 @@ class TestReleaseChannelLeadTimeWeekday(ReleaseChannelCase):
         #  rely on today
         for weekday in range(1, 8):
             self.default_channel.write({"delivery_weekday_ids": [Command.clear()]})
-            with freeze_time("2024-01-0%s" % weekday):
+            with freeze_time(f"2024-01-0{weekday}"):
                 self.assertFalse(self.default_channel.preparation_weekday_ids)
                 self.default_channel.shipment_lead_time = 3
                 self.default_channel.write(
