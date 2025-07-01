@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 16.0\n"
+"Project-Id-Version: Odoo Server 18.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -18,11 +18,6 @@ msgstr ""
 msgid ""
 "<i class=\"fa fa-dropbox fa-4x\" role=\"img\" aria-label=\"Release\" "
 "title=\"Automatic Release\"/>"
-msgstr ""
-
-#. module: stock_release_channel
-#: model_terms:ir.ui.view,arch_db:stock_release_channel.stock_release_channel_kanban_view
-msgid "<i class=\"fa fa-ellipsis-v\" role=\"img\" aria-label=\"Details\" title=\"Details\"/>"
 msgstr ""
 
 #. module: stock_release_channel
@@ -53,28 +48,24 @@ msgstr ""
 #. module: stock_release_channel
 #. odoo-python
 #: code:addons/stock_release_channel/models/stock_release_channel.py:0
-#, python-format
 msgid "Action 'Lock' is not allowed for channel %(name)s."
 msgstr ""
 
 #. module: stock_release_channel
 #. odoo-python
 #: code:addons/stock_release_channel/models/stock_release_channel.py:0
-#, python-format
 msgid "Action 'Sleep' is not allowed for channel %(name)s."
 msgstr ""
 
 #. module: stock_release_channel
 #. odoo-python
 #: code:addons/stock_release_channel/models/stock_release_channel.py:0
-#, python-format
 msgid "Action 'Unlock' is not allowed for channel %(name)s."
 msgstr ""
 
 #. module: stock_release_channel
 #. odoo-python
 #: code:addons/stock_release_channel/models/stock_release_channel.py:0
-#, python-format
 msgid "Action 'Wake Up' is not allowed for channel %(name)s."
 msgstr ""
 
@@ -102,7 +93,6 @@ msgstr ""
 #. odoo-python
 #: code:addons/stock_release_channel/models/stock_release_channel.py:0
 #: model:ir.model.fields,field_description:stock_release_channel.field_stock_release_channel__count_picking_chain
-#, python-format
 msgid "All Related Transfers"
 msgstr ""
 
@@ -129,12 +119,8 @@ msgstr ""
 
 #. module: stock_release_channel
 #: model:ir.model.fields.selection,name:stock_release_channel.selection__stock_release_channel__state__asleep
-msgid "Asleep"
-msgstr ""
-
-#. module: stock_release_channel
 #: model_terms:ir.ui.view,arch_db:stock_release_channel.stock_release_channel_search_view
-msgid "Aslepp"
+msgid "Asleep"
 msgstr ""
 
 #. module: stock_release_channel
@@ -145,7 +131,6 @@ msgstr ""
 #. module: stock_release_channel
 #. odoo-python
 #: code:addons/stock_release_channel/models/stock_picking.py:0
-#, python-format
 msgid "Assign release channel on %s"
 msgstr ""
 
@@ -177,7 +162,6 @@ msgstr ""
 #. module: stock_release_channel
 #. odoo-python
 #: code:addons/stock_release_channel/models/stock_release_channel.py:0
-#, python-format
 msgid "Channel %(name)s has no validated transfer yet."
 msgstr ""
 
@@ -260,7 +244,6 @@ msgstr ""
 #. module: stock_release_channel
 #. odoo-python
 #: code:addons/stock_release_channel/models/stock_release_channel.py:0
-#, python-format
 msgid ""
 "Error when evaluating the channel's code:\n"
 " %(name)s \n"
@@ -338,11 +321,6 @@ msgstr ""
 #. module: stock_release_channel
 #: model:ir.model.fields,field_description:stock_release_channel.field_stock_release_channel__last_done_picking_id
 msgid "Last Done Transfer"
-msgstr ""
-
-#. module: stock_release_channel
-#: model:ir.model.fields,field_description:stock_release_channel.field_stock_release_channel____last_update
-msgid "Last Modified on"
 msgstr ""
 
 #. module: stock_release_channel
@@ -432,7 +410,6 @@ msgstr ""
 #. module: stock_release_channel
 #. odoo-python
 #: code:addons/stock_release_channel/models/stock_release_channel.py:0
-#, python-format
 msgid "No Max transfers to release is configured."
 msgstr ""
 
@@ -450,7 +427,6 @@ msgstr ""
 #. odoo-python
 #: code:addons/stock_release_channel/models/stock_release_channel.py:0
 #: code:addons/stock_release_channel/tests/common.py:0
-#, python-format
 msgid "Nothing in the queue!"
 msgstr ""
 
@@ -513,7 +489,6 @@ msgstr ""
 
 #. module: stock_release_channel
 #: model:ir.actions.server,name:stock_release_channel.ir_cron_stock_picking_assign_release_channel_ir_actions_server
-#: model:ir.cron,cron_name:stock_release_channel.ir_cron_stock_picking_assign_release_channel
 msgid "Re-assign release channel"
 msgstr ""
 
@@ -669,7 +644,6 @@ msgstr ""
 #. module: stock_release_channel
 #. odoo-python
 #: code:addons/stock_release_channel/models/stock_release_channel.py:0
-#, python-format
 msgid ""
 "The number of released transfers in progress is already at the maximum."
 msgstr ""
@@ -677,7 +651,6 @@ msgstr ""
 #. module: stock_release_channel
 #. odoo-python
 #: code:addons/stock_release_channel/models/stock_release_channel.py:0
-#, python-format
 msgid "The release of pickings is not allowed for channel %(name)s."
 msgstr ""
 
@@ -685,11 +658,8 @@ msgstr ""
 #: model:ir.model.fields,help:stock_release_channel.field_stock_release_channel__state
 msgid ""
 "The state allows you to control the availability of the release channel.\n"
-"* Open: Manual and automatic picking assignment to the release is effective and release operations are allowed.\n"
-" * Locked: Release operations are forbidden. (Assignement processes are still working)\n"
-"* Delivering: A background task is running to automatically deliver ready shipments\n"
-"* Delivering Error: An error occurred in the delivery background task\n"
-"* Delivered: Ready transfers are delivered\n"
+" * Open: Manual and automatic picking assignment to the release is effective and release operations are allowed.\n"
+"* Locked: Release operations are forbidden. (Assignement processes are still working)\n"
 "* Asleep: Assigned pickings not processed are unassigned from the release channel.\n"
 msgstr ""
 
@@ -800,7 +770,6 @@ msgstr ""
 #. module: stock_release_channel
 #. odoo-python
 #: code:addons/stock_release_channel/models/stock_picking.py:0
-#, python-format
 msgid ""
 "You cannot release delivery of the channel %s because it has been forbidden "
 "in the release channel configuration"
