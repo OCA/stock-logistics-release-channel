@@ -1,9 +1,10 @@
 [project]
 name = "odoo-addons-oca-stock-logistics-release-channel"
-version = "18.0.20250702.0"
+version = "18.0.20250702.1"
 dependencies = [
     "odoo-addon-stock_release_channel==18.0.*",
     "odoo-addon-stock_release_channel_process_end_time==18.0.*",
+    "odoo-addon-stock_release_channel_shipment_lead_time==18.0.*",
 ]
 classifiers=[
     "Programming Language :: Python",
