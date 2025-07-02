@@ -1,9 +1,10 @@
 [project]
 name = "odoo-addons-oca-stock-logistics-release-channel"
-version = "18.0.20250702.2"
+version = "18.0.20250702.3"
 dependencies = [
     "odoo-addon-stock_release_channel==18.0.*",
     "odoo-addon-stock_release_channel_process_end_time==18.0.*",
+    "odoo-addon-stock_release_channel_shipment_advice==18.0.*",
     "odoo-addon-stock_release_channel_shipment_lead_time==18.0.*",
     "odoo-addon-stock_release_channel_warehouse_calendar==18.0.*",
 ]
