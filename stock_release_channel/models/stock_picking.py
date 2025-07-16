@@ -73,8 +73,8 @@ class StockPicking(models.Model):
                 )
         return super().release_available_to_promise()
 
-    def _create_backorder(self):
-        backorders = super()._create_backorder()
+    def _create_backorder(self, backorder_moves=None):
+        backorders = super()._create_backorder(backorder_moves=backorder_moves)
         backorders._delay_assign_release_channel()
         return backorders
 
