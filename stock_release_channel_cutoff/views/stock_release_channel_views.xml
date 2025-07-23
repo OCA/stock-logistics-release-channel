@@ -31,20 +31,19 @@
             </xpath>
             <xpath expr="//field[@name='process_end_time']" position="before">
                 <field
-                    class="badge rounded-pill bg-o-color-1 text-white mb4"
-                    name="cutoff_time"
-                    widget="float_time"
-                    attrs="{'invisible': [('cutoff_warning', '=', True)]}"
-                />
+                class="badge rounded-pill bg-o-color-1 text-white mb4"
+                name="cutoff_time"
+                widget="float_time"
+                attrs="{'invisible': [('cutoff_warning', '=', True)]}"
+            />
                 <field
-                    class="badge rounded-pill bg-danger text-white mb4"
-                    name="cutoff_time"
-                    widget="float_time"
-                    attrs="{'invisible': [('cutoff_warning', '=', False)]}"
-                />
+                class="badge rounded-pill bg-danger text-white mb4"
+                name="cutoff_time"
+                widget="float_time"
+                attrs="{'invisible': [('cutoff_warning', '=', False)]}"
+            />
                     -
             </xpath>
         </field>
     </record>
-
 </odoo>
