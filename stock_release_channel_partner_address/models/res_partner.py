@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html)
 
 from odoo import models
-from odoo.osv.expression import AND
+from odoo.osv.expression import AND, OR
 
 
 class ResPartner(models.Model):
@@ -15,22 +15,12 @@ class ResPartner(models.Model):
         # - the partner's country or state is included in the channel's ones
         # - the partner's country or state is not defined
         domain = super()._release_channel_possible_candidate_domain
-        if country := self.country_id:
-            domain = AND(
-                [
-                    domain,
-                    [
-                        "|",
-                        ("country_ids", "=", False),
-                        ("country_ids", "in", country.ids),
-                    ],
-                ]
+        country_domain = [("country_ids", "=", False)]
+        if self.country_id:
+            country_domain = OR(
+                [country_domain, [("country_ids", "in", self.country_id.ids)]]
             )
-        if state := self.state_id:
-            domain = AND(
-                [
-                    domain,
-                    ["|", ("state_ids", "=", False), ("state_ids", "in", state.ids)],
-                ]
-            )
-        return domain
+        state_domain = [("state_ids", "=", False)]
+        if self.state_id:
+            state_domain = OR([state_domain, [("state_ids", "in", self.state_id.ids)]])
+        return AND([domain, country_domain, state_domain])
