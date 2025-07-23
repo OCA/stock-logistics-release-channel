@@ -7,12 +7,13 @@ from datetime import datetime
 from freezegun import freeze_time
 
 from odoo import fields
-from odoo.tests.common import TransactionCase
+
+from odoo.addons.base.tests.common import BaseCommon
 
 to_datetime = fields.Datetime.to_datetime
 
 
-class TestStockReleaseChannelCutoff(TransactionCase):
+class TestStockReleaseChannelCutoff(BaseCommon):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()

@@ -12,7 +12,7 @@
                 <field
                     name="cutoff_time"
                     widget="float_time"
-                    attrs="{'readonly': [('process_end_time_can_edit', '=', False)]}"
+                    readonly="not process_end_time_can_edit"
                 />
             </field>
         </field>
@@ -34,13 +34,13 @@
                 class="badge rounded-pill bg-o-color-1 text-white mb4"
                 name="cutoff_time"
                 widget="float_time"
-                attrs="{'invisible': [('cutoff_warning', '=', True)]}"
+                invisible="cutoff_warning"
             />
                 <field
                 class="badge rounded-pill bg-danger text-white mb4"
                 name="cutoff_time"
                 widget="float_time"
-                attrs="{'invisible': [('cutoff_warning', '=', False)]}"
+                invisible="not cutoff_warning"
             />
                     -
             </xpath>
