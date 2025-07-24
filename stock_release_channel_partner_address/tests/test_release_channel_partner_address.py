@@ -100,7 +100,7 @@ class TestReleaseChannelPartnerAddress(ReleaseChannelCase):
         move.picking_id.partner_id = self.partner
         self.assertEqual(
             move.picking_id._find_release_channel_possible_candidate(),
-            self.all_channels,
+            self.channel,
         )
 
     def test_picking_find_release_channel_match_by_address_country_no_state(self):
@@ -108,7 +108,7 @@ class TestReleaseChannelPartnerAddress(ReleaseChannelCase):
         move.picking_id.partner_id = self.partner_it
         self.assertEqual(
             move.picking_id._find_release_channel_possible_candidate(),
-            self.all_channels - self.channel_uk,
+            self.channel + self.channel_it,
         )
 
     def test_picking_find_release_channel_match_by_address_country_and_state(self):
