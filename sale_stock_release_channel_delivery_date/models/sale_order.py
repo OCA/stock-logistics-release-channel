@@ -68,6 +68,9 @@ class SaleOrder(models.Model):
             channel._get_earliest_delivery_date(self.partner_shipping_id, order_dt)
             for channel in channels
         ]
+        dates = filter(None, dates)
+        if not dates:
+            return False
         return min(dates)
 
     @api.model
