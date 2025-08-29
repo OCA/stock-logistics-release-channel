@@ -38,6 +38,12 @@ class StockReleaseChannel(models.Model):
             work_intervals = calendar._work_intervals_batch(
                 delivery_date, delivery_date + batch_delta, tz=wh_tz
             )[False]
+            if not work_intervals:
+                delivery_date = (
+                    yield (delivery_date + batch_delta)
+                    .astimezone(pytz.utc)
+                    .replace(tzinfo=None)
+                )
             for begin_dt_tz, end_dt_tz, _attendance in work_intervals:
                 while delivery_date <= end_dt_tz:
                     if delivery_date < begin_dt_tz:

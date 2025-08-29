@@ -2,6 +2,7 @@
 # Copyright 2024 Camptocamp (https://www.camptocamp.com)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html)
 
+from unittest import mock
 
 from odoo import fields
 
@@ -67,3 +68,16 @@ class TestChannelDeliveryDate(ReleaseChannelCase):
         self.assertEqual(result, opening)
         result = gen.send(dt)
         self.assertEqual(result, opening)
+
+    def test_warehouse_calendar_overflow(self):
+        self.wh.calendar_id = self.calendar
+        with mock.patch.object(
+            type(self.calendar), "_work_intervals_batch", return_value={False: []}
+        ):
+            dt = to_datetime("2025-01-05 14:30:00")  # Sunday 15:30
+            gen = self.channel._next_delivery_date_warehouse_calendar(dt)
+            result = next(gen)
+            opening = to_datetime("2025-03-07 14:30:00")  # max date limit of 61 days
+            self.assertEqual(result, opening)
+        result = gen.send(dt)
+        self.assertEqual(result, to_datetime("2025-01-06 07:00:00"))
