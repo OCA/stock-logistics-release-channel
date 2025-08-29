@@ -13,7 +13,7 @@ class StockPicking(models.Model):
 
     release_channel_id = fields.Many2one(
         comodel_name="stock.release.channel",
-        index=True,
+        index="btree_not_null",
         ondelete="restrict",
         copy=False,
         tracking=True,
