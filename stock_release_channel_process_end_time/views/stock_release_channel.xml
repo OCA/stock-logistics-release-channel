@@ -80,7 +80,7 @@
                         <div class="row">
                             <div>
                                 <field
-                                    class="badge rounded-pill bg-o-color-1 mb4"
+                                    class="badge rounded-pill bg-o-color-1 mt4 mb4"
                                     name="process_end_time"
                                     widget="float_time"
                                     invisible="process_end_date"
@@ -89,7 +89,7 @@
                                     name="process_end_date"
                                     title="End Date"
                                     invisible="not process_end_date"
-                                    class="badge rounded-pill bg-o-color-1 mb4"
+                                    class="badge rounded-pill bg-o-color-1 mt4 mb4"
                                 />
                             </div>
                         </div>
