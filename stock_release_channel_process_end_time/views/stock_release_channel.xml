@@ -78,14 +78,13 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="row">
-                            <div class="col-5">
+                            <div>
                                 <field
                                     class="badge rounded-pill bg-o-color-1 mb4"
                                     name="process_end_time"
                                     widget="float_time"
+                                    invisible="process_end_date"
                                 />
-                            </div>
-                            <div class="col-7">
                                 <field
                                     name="process_end_date"
                                     title="End Date"
