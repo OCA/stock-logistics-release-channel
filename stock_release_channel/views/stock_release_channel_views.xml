@@ -348,6 +348,7 @@
                         <div
                             t-attf-class="#{kanban_color(record.color.raw_value)}"
                             name="release_channel"
+                            style="margin: -4px"
                         >
                             <div>
                                 <div t-attf-class="o_kanban_card_header">
@@ -363,7 +364,7 @@
                                                 t-attf-class="{{ classname }}"
                                                 role="img"
                                                 title="name"
-                                                style="margin-left: 16rem; line-height: 24px"
+                                                style="float: right; margin-right: 14px; line-height: 24px"
                                             />
                                         </div>
                                     </div>
