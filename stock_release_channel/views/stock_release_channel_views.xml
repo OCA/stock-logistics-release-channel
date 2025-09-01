@@ -363,7 +363,7 @@
                                             <i
                                                 t-attf-class="{{ classname }}"
                                                 role="img"
-                                                title="name"
+                                                title="state"
                                                 style="float: right; margin-right: 14px; line-height: 24px"
                                             />
                                         </div>
