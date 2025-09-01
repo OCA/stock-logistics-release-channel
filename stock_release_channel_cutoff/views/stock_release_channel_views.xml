@@ -31,13 +31,13 @@
             </xpath>
             <xpath expr="//field[@name='process_end_time']" position="before">
                 <field
-                class="badge rounded-pill bg-o-color-1 text-white mb4"
+                class="badge rounded-pill bg-o-color-1 text-white mt4 mb4"
                 name="cutoff_time"
                 widget="float_time"
                 invisible="cutoff_warning"
             />
                 <field
-                class="badge rounded-pill bg-danger text-white mb4"
+                class="badge rounded-pill bg-danger text-white mt4 mb4"
                 name="cutoff_time"
                 widget="float_time"
                 invisible="not cutoff_warning"
