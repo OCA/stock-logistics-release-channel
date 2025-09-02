@@ -1,4 +1,5 @@
 # Copyright 2022 ACSONE SA/NV
+# Copyright 2025 Jacques-Etienne Baudoux (BCIM) <je@bcim.be>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 from odoo import api, fields, models
@@ -52,6 +53,16 @@ class StockReleaseChannel(models.Model):
         if not is_auto_release_allowed:
             domain = self._get_is_auto_release_not_allowed_domain()
         return domain
+
+    @property
+    def _has_picking_release_ready_domain(self):
+        domain = super()._has_picking_release_ready_domain
+        return OR(
+            [
+                domain,
+                [("release_mode", "=", "auto"), ("state", "=", "locked")],
+            ]
+        )
 
     def write(self, vals):
         res = super().write(vals)
