@@ -27,15 +27,6 @@ msgstr ""
 
 #. module: stock_release_channel
 #: model_terms:ir.ui.view,arch_db:stock_release_channel.stock_release_channel_kanban_view
-msgid ""
-"<i class=\"fa fa-ellipsis-v\" role=\"img\" aria-label=\"Details\" "
-"title=\"Details\"/>"
-msgstr ""
-"<i class=\"fa fa-ellipsis-v\" role=\"img\" aria-label=\"Dettagli\" "
-"title=\"Dettagli\"/>"
-
-#. module: stock_release_channel
-#: model_terms:ir.ui.view,arch_db:stock_release_channel.stock_release_channel_kanban_view
 msgid "<span class=\"ms-2\">Lock</span>"
 msgstr "<span class=\"ms-2\">Blocca</span>"
 
@@ -62,28 +53,24 @@ msgstr "<span>Azioni</span>"
 #. module: stock_release_channel
 #. odoo-python
 #: code:addons/stock_release_channel/models/stock_release_channel.py:0
-#, python-format
 msgid "Action 'Lock' is not allowed for channel %(name)s."
 msgstr "L'azione 'Blocca' non è consentita per il canale %(name)s."
 
 #. module: stock_release_channel
 #. odoo-python
 #: code:addons/stock_release_channel/models/stock_release_channel.py:0
-#, python-format
 msgid "Action 'Sleep' is not allowed for channel %(name)s."
 msgstr "L'azione 'Sospendi' non è consentita per il canale %(name)s."
 
 #. module: stock_release_channel
 #. odoo-python
 #: code:addons/stock_release_channel/models/stock_release_channel.py:0
-#, python-format
 msgid "Action 'Unlock' is not allowed for channel %(name)s."
 msgstr "L'azione 'Sblocca' non è consentita per il canale %(name)s."
 
 #. module: stock_release_channel
 #. odoo-python
 #: code:addons/stock_release_channel/models/stock_release_channel.py:0
-#, python-format
 msgid "Action 'Wake Up' is not allowed for channel %(name)s."
 msgstr "L'azione 'Riattiva' non è consentita per il canale %(name)s."
 
@@ -111,7 +98,6 @@ msgstr "Tutti i movimenti (stima)"
 #. odoo-python
 #: code:addons/stock_release_channel/models/stock_release_channel.py:0
 #: model:ir.model.fields,field_description:stock_release_channel.field_stock_release_channel__count_picking_chain
-#, python-format
 msgid "All Related Transfers"
 msgstr "Tutti i trasferimenti relativi"
 
@@ -138,12 +124,8 @@ msgstr "In archivio"
 
 #. module: stock_release_channel
 #: model:ir.model.fields.selection,name:stock_release_channel.selection__stock_release_channel__state__asleep
-msgid "Asleep"
-msgstr "Sospeso"
-
-#. module: stock_release_channel
 #: model_terms:ir.ui.view,arch_db:stock_release_channel.stock_release_channel_search_view
-msgid "Aslepp"
+msgid "Asleep"
 msgstr "Sospeso"
 
 #. module: stock_release_channel
@@ -154,7 +136,6 @@ msgstr "Assegna prelievi"
 #. module: stock_release_channel
 #. odoo-python
 #: code:addons/stock_release_channel/models/stock_picking.py:0
-#, python-format
 msgid "Assign release channel on %s"
 msgstr "Assegna canale rilascio in %s"
 
@@ -186,7 +167,6 @@ msgstr "Modalità gruppo"
 #. module: stock_release_channel
 #. odoo-python
 #: code:addons/stock_release_channel/models/stock_release_channel.py:0
-#, python-format
 msgid "Channel %(name)s has no validated transfer yet."
 msgstr "Il canale %(name)s non ha ancora un trasferimento validato."
 
@@ -269,7 +249,6 @@ msgstr "Inserire qui il codice Python."
 #. module: stock_release_channel
 #. odoo-python
 #: code:addons/stock_release_channel/models/stock_release_channel.py:0
-#, python-format
 msgid ""
 "Error when evaluating the channel's code:\n"
 " %(name)s \n"
@@ -353,11 +332,6 @@ msgstr "Nome ultimo prelievo effettuato"
 #: model:ir.model.fields,field_description:stock_release_channel.field_stock_release_channel__last_done_picking_id
 msgid "Last Done Transfer"
 msgstr "Ultimo trasferimento effettuato"
-
-#. module: stock_release_channel
-#: model:ir.model.fields,field_description:stock_release_channel.field_stock_release_channel____last_update
-msgid "Last Modified on"
-msgstr "Ultima modifica il"
 
 #. module: stock_release_channel
 #: model_terms:ir.ui.view,arch_db:stock_release_channel.stock_release_channel_kanban_view
@@ -448,7 +422,6 @@ msgstr "Nome"
 #. module: stock_release_channel
 #. odoo-python
 #: code:addons/stock_release_channel/models/stock_release_channel.py:0
-#, python-format
 msgid "No Max transfers to release is configured."
 msgstr "Non è configurato il nr. massimo di trasferimenti da rilasciare."
 
@@ -466,7 +439,6 @@ msgstr "Non è configurato il canale rilascio"
 #. odoo-python
 #: code:addons/stock_release_channel/models/stock_release_channel.py:0
 #: code:addons/stock_release_channel/tests/common.py:0
-#, python-format
 msgid "Nothing in the queue!"
 msgstr "In questa coda non c'è niente!"
 
@@ -529,7 +501,6 @@ msgstr "Codice Python"
 
 #. module: stock_release_channel
 #: model:ir.actions.server,name:stock_release_channel.ir_cron_stock_picking_assign_release_channel_ir_actions_server
-#: model:ir.cron,cron_name:stock_release_channel.ir_cron_stock_picking_assign_release_channel
 msgid "Re-assign release channel"
 msgstr "Riassegna canale rilascio"
 
@@ -686,14 +657,12 @@ msgstr "Campo tecnico per controllare se è consentita l'azione 'Attiva'."
 #. module: stock_release_channel
 #. odoo-python
 #: code:addons/stock_release_channel/models/stock_release_channel.py:0
-#, python-format
 msgid "The number of released transfers in progress is already at the maximum."
 msgstr "Il numero di trasferimenti in corso è già al massimo."
 
 #. module: stock_release_channel
 #. odoo-python
 #: code:addons/stock_release_channel/models/stock_release_channel.py:0
-#, python-format
 msgid "The release of pickings is not allowed for channel %(name)s."
 msgstr "Il rilascio dei prelievi non è consentito per il canale %(name)s."
 
@@ -701,29 +670,13 @@ msgstr "Il rilascio dei prelievi non è consentito per il canale %(name)s."
 #: model:ir.model.fields,help:stock_release_channel.field_stock_release_channel__state
 msgid ""
 "The state allows you to control the availability of the release channel.\n"
-"* Open: Manual and automatic picking assignment to the release is effective "
+" * Open: Manual and automatic picking assignment to the release is effective "
 "and release operations are allowed.\n"
-" * Locked: Release operations are forbidden. (Assignement processes are "
-"still working)\n"
-"* Delivering: A background task is running to automatically deliver ready "
-"shipments\n"
-"* Delivering Error: An error occurred in the delivery background task\n"
-"* Delivered: Ready transfers are delivered\n"
+"* Locked: Release operations are forbidden. (Assignement processes are still "
+"working)\n"
 "* Asleep: Assigned pickings not processed are unassigned from the release "
 "channel.\n"
 msgstr ""
-"Lo stato consente di controllare la disponibilità del canale di rilascio.\n"
-"* Apri: l'assegnazione manuale e automatica di raccolta al rilascio è "
-"efficace e sono consentite operazioni di rilascio.\n"
-"* Bloccato: le operazioni di rilascio sono vietate. (I processi di "
-"assegnazione stanno ancora funzionando)\n"
-"* Consegna: un'attività di fondo è in esecuzione per consegnare "
-"automaticamente le spedizioni pronte\n"
-"* Errore di consegna: si è verificato un errore nell'attività di background "
-"di consegna\n"
-"* Consegnato: vengono consegnati trasferimenti pronti\n"
-"* Dormienti: i prelievi assegnati non elaborati non sono assegnati dal "
-"canale di rilascio.\n"
 
 #. module: stock_release_channel
 #: model:ir.model.fields,help:stock_release_channel.field_stock_release_channel__state_at_wakeup
@@ -835,7 +788,6 @@ msgstr "Scrivere il codice Python per filtrare i prelievi."
 #. module: stock_release_channel
 #. odoo-python
 #: code:addons/stock_release_channel/models/stock_picking.py:0
-#, python-format
 msgid ""
 "You cannot release delivery of the channel %s because it has been forbidden "
 "in the release channel configuration"
@@ -845,8 +797,51 @@ msgstr ""
 
 #. module: stock_release_channel
 #: model_terms:ir.ui.view,arch_db:stock_release_channel.stock_release_channel_kanban_view
-msgid "name"
-msgstr "nome"
+msgid "state"
+msgstr ""
+
+#~ msgid ""
+#~ "<i class=\"fa fa-ellipsis-v\" role=\"img\" aria-label=\"Details\" "
+#~ "title=\"Details\"/>"
+#~ msgstr ""
+#~ "<i class=\"fa fa-ellipsis-v\" role=\"img\" aria-label=\"Dettagli\" "
+#~ "title=\"Dettagli\"/>"
+
+#~ msgid "Aslepp"
+#~ msgstr "Sospeso"
+
+#~ msgid "Last Modified on"
+#~ msgstr "Ultima modifica il"
+
+#~ msgid ""
+#~ "The state allows you to control the availability of the release channel.\n"
+#~ "* Open: Manual and automatic picking assignment to the release is "
+#~ "effective and release operations are allowed.\n"
+#~ " * Locked: Release operations are forbidden. (Assignement processes are "
+#~ "still working)\n"
+#~ "* Delivering: A background task is running to automatically deliver ready "
+#~ "shipments\n"
+#~ "* Delivering Error: An error occurred in the delivery background task\n"
+#~ "* Delivered: Ready transfers are delivered\n"
+#~ "* Asleep: Assigned pickings not processed are unassigned from the release "
+#~ "channel.\n"
+#~ msgstr ""
+#~ "Lo stato consente di controllare la disponibilità del canale di "
+#~ "rilascio.\n"
+#~ "* Apri: l'assegnazione manuale e automatica di raccolta al rilascio è "
+#~ "efficace e sono consentite operazioni di rilascio.\n"
+#~ "* Bloccato: le operazioni di rilascio sono vietate. (I processi di "
+#~ "assegnazione stanno ancora funzionando)\n"
+#~ "* Consegna: un'attività di fondo è in esecuzione per consegnare "
+#~ "automaticamente le spedizioni pronte\n"
+#~ "* Errore di consegna: si è verificato un errore nell'attività di "
+#~ "background di consegna\n"
+#~ "* Consegnato: vengono consegnati trasferimenti pronti\n"
+#~ "* Dormienti: i prelievi assegnati non elaborati non sono assegnati dal "
+#~ "canale di rilascio.\n"
+
+#~ msgid "name"
+#~ msgstr "nome"
 
 #~ msgid ""
 #~ "The state allows you to control the availability of the release channel.\n"
