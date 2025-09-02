@@ -5,7 +5,7 @@
     "name": "Sale Stock Release Channel Delivery Date",
     "summary": """
         Compute expected date based on available release channels """,
-    "version": "18.0.1.0.0",
+    "version": "18.0.1.0.1",
     "license": "AGPL-3",
     "author": "BCIM,Camptocamp,Odoo Community Association (OCA)",
     "maintainers": ["jbaudoux"],
