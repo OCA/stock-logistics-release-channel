@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2024-10-05 17:06+0000\n"
+"PO-Revision-Date: 2025-09-03 11:43+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.6.2\n"
+"X-Generator: Weblate 5.10.4\n"
 
 #. module: stock_release_channel
 #: model_terms:ir.ui.view,arch_db:stock_release_channel.stock_release_channel_kanban_view
@@ -677,6 +677,13 @@ msgid ""
 "* Asleep: Assigned pickings not processed are unassigned from the release "
 "channel.\n"
 msgstr ""
+"Lo stato consenti di controllare la disponibilità del canale di rilascio.\n"
+" * Aperto: assegnazione manuale e automatica del prelievo al rilascio è "
+"attiva e le operazioni di rilascio sono consentite.\n"
+"* Bloccato: le operazioni di rilascio sono vietate. (i processi di "
+"assegnazione sono ancora in lavoro)\n"
+"* Sospeso: i prelievi assegnati e non elaborati vengono revocati dal canale "
+"di rilascio.\n"
 
 #. module: stock_release_channel
 #: model:ir.model.fields,help:stock_release_channel.field_stock_release_channel__state_at_wakeup
@@ -798,7 +805,7 @@ msgstr ""
 #. module: stock_release_channel
 #: model_terms:ir.ui.view,arch_db:stock_release_channel.stock_release_channel_kanban_view
 msgid "state"
-msgstr ""
+msgstr "Stato"
 
 #~ msgid ""
 #~ "<i class=\"fa fa-ellipsis-v\" role=\"img\" aria-label=\"Details\" "
