@@ -93,7 +93,7 @@ class StockReleaseChannel(models.Model):
                     lambda w,
                     weekday=weekday,
                     inc=inc,
-                    delivery_date_tz=delivery_date_tz: str(weekday + inc)
+                    delivery_date_tz=delivery_date_tz: str((weekday + inc) % 7)
                     in w.time_window_weekday_ids.mapped("name")
                     and (inc or w.get_time_window_end_time() >= delivery_date_tz.time())
                 )
