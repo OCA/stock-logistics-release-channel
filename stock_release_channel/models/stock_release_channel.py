@@ -952,7 +952,7 @@ class StockReleaseChannel(models.Model):
         """
         return defaultdict(list)
 
-    def _get_earliest_delivery_date(self, partner, order_dt):
+    def _get_earliest_delivery_date(self, partner, start_dt, steps=None):
         """Compute the earliest delivery date for this channel
 
         Go through each steps. All generators of a step must agree on a date.
@@ -963,10 +963,11 @@ class StockReleaseChannel(models.Model):
         This algorithm performs a quick convergence to a date.
         """
         self.ensure_one()
-        best_dt = order_dt
-        limit_dt = order_dt + timedelta(days=DELIVERY_DATE_COMPUTATION_LIMIT_DAYS)
+        best_dt = start_dt
+        limit_dt = start_dt + timedelta(days=DELIVERY_DATE_COMPUTATION_LIMIT_DAYS)
         _logger.debug(f"Compute earliest delivery date starting from {best_dt}")
-        for step in self._delivery_date_steps:
+        steps = steps or self._delivery_date_steps
+        for step in steps:
             funcs = self._delivery_date_generators.get(step)
             if not funcs:
                 continue

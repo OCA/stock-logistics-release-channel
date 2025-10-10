@@ -2,7 +2,7 @@
 # Copyright 2024 Jacques-Etienne Baudoux (BCIM) <je@bcim.be>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html)
 
-from odoo import exceptions, fields, models
+from odoo import api, exceptions, fields, models
 from odoo.osv import expression
 
 from odoo.addons.queue_job.job import identity_exact
@@ -18,6 +18,10 @@ class StockPicking(models.Model):
         copy=False,
         tracking=True,
         inverse="_inverse_release_channel_id",
+    )
+
+    delivery_date = fields.Date(
+        compute="_compute_delivery_date",
     )
 
     def _inverse_release_channel_id(self):
@@ -44,6 +48,28 @@ class StockPicking(models.Model):
                 )
             all_moves = moves.browse(move_chain_ids)
             all_moves._release_set_expected_date(new_date)
+
+    @api.depends("release_channel_id", "need_release", "partner_id")
+    def _compute_delivery_date(self):
+        # compute the earliest delivery date from the scheduled date
+        for picking in self:
+            channel = picking.release_channel_id
+            if not channel or not picking.partner_id or picking.need_release:
+                picking.delivery_date = False
+                continue
+            # Use the scheduled date as preparation end date
+            steps = channel._delivery_date_steps
+            # skip any step until preparation included
+            for i, step in enumerate(steps):
+                if step == "preparation":
+                    steps = steps[i + 1 :]
+                    break
+            delivery_dt = channel._get_earliest_delivery_date(
+                picking.partner_id,
+                picking.scheduled_date,
+                steps=steps,
+            )
+            picking.delivery_date = channel._localize(delivery_dt).date()
 
     def _delay_assign_release_channel(self):
         for picking in self:
