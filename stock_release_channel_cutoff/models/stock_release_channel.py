@@ -24,17 +24,15 @@ class StockReleaseChannel(models.Model):
     # Technical field for warning on kanban view
     cutoff_warning = fields.Boolean(compute="_compute_cutoff_warning")
 
-    @property
-    def cutoff_datetime(self):
+    def cutoff_datetime(self, day_dt):
         self.ensure_one()
         if not self.cutoff_time:
             return False
-        now = self.process_end_date if self.state == "open" else fields.Datetime.now()
         return time_to_datetime(
             float_to_time(
                 self.cutoff_time,
             ),
-            now=now,
+            now=day_dt,
             tz=self.process_end_time_tz,
         )
 
@@ -44,7 +42,7 @@ class StockReleaseChannel(models.Model):
         for channel in self:
             cutoff_warning = False
             if channel.state == "open" and channel.cutoff_time:
-                cutoff_warning = channel.cutoff_datetime < now
+                cutoff_warning = channel.cutoff_datetime(self.process_end_date) < now
             channel.cutoff_warning = cutoff_warning
 
     @property
@@ -64,7 +62,7 @@ class StockReleaseChannel(models.Model):
         new date to validate.
         """
         self.ensure_one()
-        cutoff = self.cutoff_datetime
+        cutoff = self.cutoff_datetime(delivery_date)
         if not cutoff:
             # any date is valid
             while True:
