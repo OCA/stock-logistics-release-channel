@@ -212,6 +212,11 @@ msgid "Deliveries"
 msgstr ""
 
 #. module: stock_release_channel
+#: model:ir.model.fields,field_description:stock_release_channel.field_stock_picking__delivery_date
+msgid "Delivery Date"
+msgstr ""
+
+#. module: stock_release_channel
 #: model:ir.model.fields,field_description:stock_release_channel.field_stock_release_channel__display_name
 msgid "Display Name"
 msgstr ""
