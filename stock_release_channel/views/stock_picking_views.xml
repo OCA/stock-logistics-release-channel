@@ -5,6 +5,9 @@
         <field name="model">stock.picking</field>
         <field name="inherit_id" ref="stock.view_picking_form" />
         <field name="arch" type="xml">
+            <field name="date_deadline">
+                <field name="delivery_date" invisible="not delivery_date or (delivery_date == date_deadline)" />
+            </field>
             <group name="other_infos" position="inside">
                 <field name="release_channel_id" options="{'no_create': True}" />
             </group>
