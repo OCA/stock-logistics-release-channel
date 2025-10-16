@@ -24,6 +24,8 @@ class StockPicking(models.Model):
 
     delivery_date = fields.Date(
         compute="_compute_delivery_date",
+        store=True,
+        readonly=True,
     )
 
     def _inverse_release_channel_id(self):
@@ -51,13 +53,27 @@ class StockPicking(models.Model):
             all_moves = moves.browse(move_chain_ids)
             all_moves._release_set_expected_date(new_date)
 
-    @api.depends("release_channel_id", "need_release", "partner_id")
+    @api.depends(
+        "release_channel_id",
+        "need_release",
+        "partner_id",
+        "state",
+        "scheduled_date",
+        "date_done",
+    )
     def _compute_delivery_date(self):
         # compute the earliest delivery date from the scheduled date
         for picking in self:
-            channel = picking.release_channel_id
-            if not channel or not picking.partner_id or picking.need_release:
+            if (
+                picking.state == "cancel"
+                or not picking.picking_type_code == "outgoing"
+                or not picking.partner_id
+                or picking.need_release
+            ):
                 picking.delivery_date = False
+                continue
+            channel = picking.release_channel_id
+            if not channel:
                 continue
             # Use the scheduled date as preparation end date
             steps = channel._delivery_date_steps
@@ -66,9 +82,15 @@ class StockPicking(models.Model):
                 if step == "preparation":
                     steps = steps[i + 1 :]
                     break
+            if picking.state == "done":
+                end_preparation_date = picking.date_done
+            else:
+                end_preparation_date = max(
+                    picking.scheduled_date, fields.Datetime.now()
+                )
             delivery_dt = channel._get_earliest_delivery_date(
                 picking.partner_id,
-                picking.scheduled_date,
+                end_preparation_date,
                 steps=steps,
             )
             picking.delivery_date = channel._localize(delivery_dt).date()
