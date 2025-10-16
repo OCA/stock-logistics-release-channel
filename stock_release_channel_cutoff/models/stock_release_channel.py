@@ -42,7 +42,7 @@ class StockReleaseChannel(models.Model):
         for channel in self:
             cutoff_warning = False
             if channel.state == "open" and channel.cutoff_time:
-                cutoff_warning = channel.cutoff_datetime(self.process_end_date) < now
+                cutoff_warning = channel.cutoff_datetime(channel.process_end_date) < now
             channel.cutoff_warning = cutoff_warning
 
     @property
