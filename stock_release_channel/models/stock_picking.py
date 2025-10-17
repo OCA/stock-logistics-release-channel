@@ -53,6 +53,13 @@ class StockPicking(models.Model):
             all_moves = moves.browse(move_chain_ids)
             all_moves._release_set_expected_date(new_date)
 
+    def _get_partner_release_channels(self):
+        domain_order = self._release_channel_possible_candidate_domain_base
+        domain_partner = self.partner_id._release_channel_possible_candidate_domain
+        domain_channel = [("is_manual_assignment", "=", False)]
+        domain = expression.AND([domain_order, domain_partner, domain_channel])
+        return self.env["stock.release.channel"].search(domain)
+
     @api.depends(
         "release_channel_id",
         "need_release",
@@ -72,28 +79,38 @@ class StockPicking(models.Model):
             ):
                 picking.delivery_date = False
                 continue
-            channel = picking.release_channel_id
-            if not channel:
+            channels = picking.release_channel_id
+            if not channels:
+                channels = picking._get_partner_release_channels()
+            if not channels:
                 continue
             # Use the scheduled date as preparation end date
-            steps = channel._delivery_date_steps
+            steps = channels._delivery_date_steps
             # skip any step until preparation included
             for i, step in enumerate(steps):
                 if step == "preparation":
                     steps = steps[i + 1 :]
                     break
-            if picking.state == "done":
+            if picking.state == "done" and picking.date_done:
                 end_preparation_date = picking.date_done
-            else:
+            elif picking.scheduled_date:
                 end_preparation_date = max(
                     picking.scheduled_date, fields.Datetime.now()
                 )
-            delivery_dt = channel._get_earliest_delivery_date(
-                picking.partner_id,
-                end_preparation_date,
-                steps=steps,
-            )
-            picking.delivery_date = channel._localize(delivery_dt).date()
+            else:
+                end_preparation_date = fields.Datetime.now()
+            dates = []
+            for channel in channels:
+                delivery_dt = channel._get_earliest_delivery_date(
+                    picking.partner_id,
+                    end_preparation_date,
+                    steps=steps,
+                )
+                if delivery_dt:
+                    dates.append(channel._localize(delivery_dt).date())
+            if not dates:
+                continue
+            picking.delivery_date = min(dates)
 
     def _delay_assign_release_channel(self):
         for picking in self:
