@@ -583,20 +583,40 @@ class StockReleaseChannel(models.Model):
         ):
             return
         message = ""
-        for channel in picking._find_release_channel_possible_candidate():
+        possible_channels = picking._find_release_channel_possible_candidate()
+        log = picking.env.context.get("assign_release_channel_log_stream")
+        if log:
+            channel_names = ", ".join(possible_channels.mapped("display_name"))
+            log.write(f"Candidate channels: {channel_names}\n")
+        for channel in possible_channels:
             current = picking
             domain = channel._prepare_domain()
             code = channel.sudo().code
             if domain:
                 current = picking.filtered_domain(domain)
             if not current:
+                if log:
+                    log.write(
+                        f"Channel '{channel.display_name}' excluded by channel "
+                        "domain\n"
+                    )
                 continue
             if code:
                 current = channel._eval_code(current)
             if not current:
+                if log:
+                    log.write(
+                        f"Channel '{channel.display_name}' excluded by channel "
+                        "python code\n"
+                    )
                 continue
             current = channel._assign_release_channel_additional_filter(current)
             if not current:
+                if log:
+                    log.write(
+                        f"Channel '{channel.display_name}' excluded by channel "
+                        "additional filter\n"
+                    )
                 continue
             if current.release_channel_id != channel:
                 current.release_channel_id = channel
@@ -605,8 +625,7 @@ class StockReleaseChannel(models.Model):
         if not picking.release_channel_id:
             # by this point, the picking should have been assigned
             message_template = (
-                "Transfer %(picking_name)s could not be assigned to a "
-                "channel, you should add a final catch-all rule"
+                "Transfer %(picking_name)s could not be assigned to a channel"
             )
             _logger.warning(message_template, {"picking_name": picking.name})
             message = self.env._(message_template, picking_name=picking.name)

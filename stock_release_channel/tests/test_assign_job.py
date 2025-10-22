@@ -43,24 +43,18 @@ class TestReleaseChannel(ReleaseChannelCase):
         move = self._create_single_move(self.product1, 10)
         with trap_jobs() as trap:
             picking = move.picking_id
-            message = (
-                f"Transfer {picking.name} could not be assigned to a "
-                "channel, you should add a final catch-all rule\n"
-            )
             picking._delay_assign_release_channel()
             trap.assert_jobs_count(1, only=picking.assign_release_channel)
             enqueued_job = trap.enqueued_jobs[0]
             trap.perform_enqueued_jobs()
-            self.assertEqual(message, enqueued_job.result)
+            message = f"Transfer {picking.name} could not be assigned to a channel"
+            self.assertRegex(enqueued_job.result, message)
         move = self._create_single_move(self.product2, 10)
         with trap_jobs() as trap:
             picking = move.picking_id
-            message = (
-                f"Transfer {picking.name} could not be assigned to a "
-                "channel, you should add a final catch-all rule\n"
-            )
             picking._delay_assign_release_channel()
             trap.assert_jobs_count(1, only=picking.assign_release_channel)
             enqueued_job = trap.enqueued_jobs[0]
             trap.perform_enqueued_jobs()
-            self.assertEqual(message, enqueued_job.result)
+            message = f"Transfer {picking.name} could not be assigned to a channel"
+            self.assertRegex(enqueued_job.result, message)

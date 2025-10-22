@@ -2,6 +2,8 @@
 # Copyright 2024 Jacques-Etienne Baudoux (BCIM) <je@bcim.be>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html)
 
+import io
+
 from odoo import api, exceptions, fields, models
 from odoo.osv import expression
 
@@ -81,9 +83,16 @@ class StockPicking(models.Model):
     def assign_release_channel(self):
         messages = ""
         for pick in self:
-            result = self.env["stock.release.channel"].assign_release_channel(pick)
+            log_stream = io.StringIO()
+            result = self.env["stock.release.channel"].assign_release_channel(
+                pick.with_context(assign_release_channel_log_stream=log_stream)
+            )
             if result:
                 messages += result + "\n"
+                log = log_stream.getvalue()
+                if log:
+                    messages += f"\nDebug:\n{log}\n"
+            log_stream.close()
         return messages
 
     def release_available_to_promise(self):
@@ -128,9 +137,13 @@ class StockPicking(models.Model):
         :return: release channels
         """
         self.ensure_one()
+        domain = self._release_channel_possible_candidate_domain
+        log = self.env.context.get("assign_release_channel_log_stream")
+        if log:
+            log.write(f"Find possible channels domain: {domain}\n")
         return (
             self.env["stock.release.channel"]
-            .search(self._release_channel_possible_candidate_domain)
+            .search(domain)
             .sorted(key=lambda r: (not bool(r.partner_ids), r.sequence))
         )
 
