@@ -111,6 +111,10 @@ class StockReleaseChannel(models.Model):
                 "stock_release_channel_process_end_time.stock_release_use_channel_end_date"
             )
         )
-        if enabled_update_scheduled_date:
+        if (
+            enabled_update_scheduled_date
+            and self.state != "asleep"
+            and self.process_end_date
+        ):
             return self.process_end_date
         return super()._get_expected_date()

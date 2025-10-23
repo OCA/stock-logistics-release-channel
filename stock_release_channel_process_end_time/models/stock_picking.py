@@ -93,25 +93,3 @@ class StockPicking(models.Model):
             operator_inselect = "not in" if operator == "=" else "in"
         sql = SQL(f"({query})", *params)
         return [("id", operator_inselect, sql)]
-
-    def _after_release_set_expected_date(self):
-        enabled_update_scheduled_date = bool(
-            self.env["ir.config_parameter"]
-            .sudo()
-            .get_param(
-                "stock_release_channel_process_end_time.stock_release_use_channel_end_date"
-            )
-        )
-        res = super()._after_release_set_expected_date()
-        for rec in self:
-            # Check if a channel has been assigned to the picking and write
-            # scheduled_date if different to avoid unnecessary write
-            if (
-                rec.state not in ("done", "cancel")
-                and rec.release_channel_id
-                and rec.release_channel_id.process_end_date
-                and rec.scheduled_date != rec.release_channel_id.process_end_date
-                and enabled_update_scheduled_date
-            ):
-                rec.scheduled_date = rec.release_channel_id.process_end_date
-        return res
