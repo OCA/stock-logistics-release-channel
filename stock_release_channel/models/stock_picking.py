@@ -75,12 +75,14 @@ class StockPicking(models.Model):
                 picking.state == "cancel"
                 or not picking.picking_type_code == "outgoing"
                 or not picking.partner_id
-                or picking.need_release
             ):
-                picking.delivery_date = False
+                if picking.delivery_date:
+                    picking.delivery_date = False
+                continue
+            if picking.need_release:
                 continue
             channels = picking.release_channel_id
-            if not channels:
+            if not channels or channels.state == "asleep":
                 channels = picking._get_partner_release_channels()
             if not channels:
                 continue
@@ -110,7 +112,11 @@ class StockPicking(models.Model):
                     dates.append(channel._localize(delivery_dt).date())
             if not dates:
                 continue
-            picking.delivery_date = min(dates)
+            delivery_date = min(dates)
+            if picking.delivery_date:
+                delivery_date = max(delivery_date, picking.delivery_date)
+            if delivery_date != picking.delivery_date:
+                picking.delivery_date = delivery_date
 
     def _delay_assign_release_channel(self):
         for picking in self:
