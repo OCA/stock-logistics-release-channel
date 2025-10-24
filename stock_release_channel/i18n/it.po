@@ -543,6 +543,7 @@ msgstr "Canale rilascio"
 #: model:ir.model.fields,field_description:stock_release_channel.field_res_users__stock_release_channel_ids
 #: model:ir.ui.menu,name:stock_release_channel.stock_release_channel_config_menu
 #: model:ir.ui.menu,name:stock_release_channel.stock_release_channel_menu
+#: model:ir.ui.menu,name:stock_release_channel.stock_release_channel_menu_section
 #: model_terms:ir.ui.view,arch_db:stock_release_channel.res_partner_form_view
 msgid "Release Channels"
 msgstr "Canali rilascio"
