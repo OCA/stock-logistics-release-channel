@@ -812,9 +812,15 @@
         <field name="code">action = model.assign_pickings()</field>
     </record>
 
+    <menuitem
+        id="stock_release_channel_menu_section"
+        name="Release Channels"
+        parent="stock.menu_stock_warehouse_mgmt"
+        sequence="0"
+    />
     <record model="ir.ui.menu" id="stock_release_channel_menu">
         <field name="name">Release Channels</field>
-        <field name="parent_id" ref="stock.menu_stock_warehouse_mgmt" />
+        <field name="parent_id" ref="stock_release_channel_menu_section" />
         <field name="action" ref="stock_release_channel_act_window" />
         <field name="sequence" eval="6" />
     </record>
