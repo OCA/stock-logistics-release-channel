@@ -93,7 +93,10 @@
 
     <record model="ir.ui.menu" id="stock_release_channel_preparation_plan_menu">
         <field name="name">Preparation Plans</field>
-        <field name="parent_id" ref="stock.menu_stock_warehouse_mgmt" />
+        <field
+            name="parent_id"
+            ref="stock_release_channel.stock_release_channel_menu_section"
+        />
         <field name="action" ref="stock_release_channel_preparation_plan_act_window" />
         <field name="sequence" eval="7" />
     </record>
