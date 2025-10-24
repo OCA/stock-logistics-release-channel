@@ -8,7 +8,9 @@ class StockPicking(models.Model):
     _inherit = "stock.picking"
 
     def _planned_delivery_date(self):
-        return self.delivery_date
+        return self.delivery_date or (
+            self.need_release and super()._planned_delivery_date()
+        )
 
     @property
     def _release_channel_possible_candidate_domain_partner_delivery_window(self):
