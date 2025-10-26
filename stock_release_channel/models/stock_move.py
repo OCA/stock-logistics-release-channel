@@ -25,12 +25,24 @@ class StockMove(models.Model):
                 moves.picking_id.assign_release_channel()
         return res
 
-    def _action_confirm(self, merge=True, merge_into=False):
-        moves = super()._action_confirm(merge=merge, merge_into=merge_into)
-        pickings = moves.filtered("need_release").picking_id
-        if pickings:
-            pickings._delay_assign_release_channel()
-        return moves
+    def _unreleased_to_backorder(self, split_order=False):
+        if split_order:
+            self = self.with_context(skip_assign_release_channel=True)
+            origin_pickings = self.picking_id
+        res = super()._unreleased_to_backorder(split_order=split_order)
+        if split_order:
+            origin_pickings.filtered(
+                lambda p: p.state not in ("draft", "cancel") and p.need_release
+            )._delay_assign_release_channel()
+        return res
+
+    def _assign_picking_post_process(self, new=False):
+        res = super()._assign_picking_post_process(new=new)
+        if not self.env.context.get("skip_assign_release_channel"):
+            pickings = self.filtered("need_release").picking_id
+            if pickings:
+                pickings._delay_assign_release_channel()
+        return res
 
     def _release_get_expected_date(self):
         """Return the new scheduled date of a single delivery move"""
