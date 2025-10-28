@@ -49,7 +49,13 @@ class StockReleaseChannel(models.Model):
         if not self.delivery_calendar_id:
             shipment_tz = fields.Datetime.add(dt_tz, days=self.shipment_lead_time)
         else:
-            days = self.shipment_lead_time + 1
+            days = self.shipment_lead_time
+            if days:
+                # We consider the current day as valid, we add a day, and then
+                # we look for open days for the given delay. Reset time to 0 in
+                # case the end time if after the warehouse calendar end time.
+                dt_tz = fields.Datetime.add(dt_tz, days=1)
+                dt_tz = dt_tz.replace(hour=0, minute=0, second=0, microsecond=0)
             shipment_tz = self.delivery_calendar_id.plan_days(
                 days, dt_tz, compute_leaves=True
             )
