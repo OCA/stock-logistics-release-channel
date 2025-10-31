@@ -5,11 +5,13 @@ from unittest import mock
 
 from odoo import exceptions
 
+from odoo.addons.queue_job.job import identity_exact
+from odoo.addons.queue_job.tests.common import trap_jobs
 from odoo.addons.stock_release_channel.models.stock_release_channel import (
     StockReleaseChannel,
 )
 
-from .common import ReleaseChannelCase
+from .common import ChannelReleaseCase, ReleaseChannelCase
 
 
 class TestReleaseChannel(ReleaseChannelCase):
@@ -137,3 +139,26 @@ class TestReleaseChannel(ReleaseChannelCase):
         move.quantity = move.product_uom_qty
         move.picking_id._action_done()
         self.assertFalse(self.default_channel.open_picking_ids)
+
+
+class TestChannelRelease(ChannelReleaseCase):
+    def test_backorder_channel(self):
+        delivery = self._out_picking(
+            self._create_picking_chain(
+                self.wh, [(self.product1, 100)], move_type="direct"
+            )
+        )
+        self._update_qty_in_location(self.loc_bin1, self.product1, 80)
+        delivery.move_ids.rule_id.no_backorder_at_release = False
+        with trap_jobs() as trap:
+            delivery.release_available_to_promise()
+            backorder = delivery.backorder_ids
+            trap.assert_jobs_count(1)
+            trap.assert_enqueued_job(
+                backorder.assign_release_channel,
+                args=(),
+                kwargs={},
+                properties=dict(
+                    identity_key=identity_exact,
+                ),
+            )
