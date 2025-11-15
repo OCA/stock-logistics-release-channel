@@ -4,6 +4,7 @@
 from datetime import timedelta
 
 from odoo import api, fields, models
+from odoo.osv.expression import AND
 
 from odoo.addons.base.models.res_partner import _tz_get
 
@@ -75,31 +76,26 @@ class StockReleaseChannel(models.Model):
                 channel.warehouse_id.partner_id.tz or company_tz or "UTC"
             )
 
-    def _field_picking_domains(self):
-        res = super()._field_picking_domains()
-        release_ready_domain = res["release_ready"]
-        # the initial scheduled_date condition based on datetime.now() must
-        # be replaced by a condition based on the process_end_date
-        # since the processe_end_date is a field on the release channel
-        # and not on the picking we all use an 'inselect' operator
-        # (join in where clause is not possible). The 'inselect' operator
-        # is not available in the ORM so we use a search with a domain
-        # on a specialized field defined in the stock.picking model
-        # (see stock.picking._search_schedule_date_prior_to_channel_process_end_date)
-        new_domain = []
-        for criteria in release_ready_domain:
-            if criteria[0] == "scheduled_date":
-                new_domain.append(
-                    (
-                        "scheduled_date_prior_to_channel_end_date_search",
-                        "=",
-                        True,
-                    )
-                )
-            else:
-                new_domain.append(criteria)
-        res["release_ready"] = new_domain
-        return res
+    @property
+    def _field_picking_domain_release_ready_extra(self):
+        domain = super()._field_picking_domain_release_ready_extra
+        if len(self) != 1:
+            domain_scheduled_date = [
+                "scheduled_date_prior_to_channel_end_date_search",
+                "=",
+                True,
+            ]
+            domain = AND([domain, domain_scheduled_date])
+        elif self.process_end_date:
+            wh_tz = self.process_end_time_tz
+            end_date_tz = self._localize(self.process_end_date, tz=wh_tz)
+            end_date_tomorrow_tz = fields.Datetime.add(end_date_tz, days=1)
+            end_date_tomorrow = self._naive(end_date_tomorrow_tz, reset_time=True)
+            domain_scheduled_date = [
+                ("scheduled_date", "<", end_date_tomorrow),
+            ]
+            domain = AND([domain, domain_scheduled_date])
+        return domain
 
     def _get_expected_date(self):
         # Use channel process end date
