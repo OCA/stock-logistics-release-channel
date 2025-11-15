@@ -70,17 +70,31 @@ class ReleaseChannelEndDateCase(ChannelReleaseCase):
         jobs_before = self.env["queue.job"].search([])
         jobs_before.unlink()
         # Set the end time
-        self.channel.process_end_time = 23.0
+        self.channel.process_end_time = 9.0
         # Set picking scheduled date
-        pickings = self.picking | self.picking2 | self.picking3
-        pickings.write({"scheduled_date": fields.Datetime.now()})
+        # picking = today
+        # picking2 = tomorrow
+        # picking3 = in 2 days
+        self.picking.scheduled_date = fields.Datetime.now()
+        self.picking2.scheduled_date = fields.Datetime.add(
+            fields.Datetime.now(), days=1
+        )
+        self.picking3.scheduled_date = fields.Datetime.add(
+            fields.Datetime.now(), days=2
+        )
 
         # Asleep the release channel to void the process end date
         self.channel.action_sleep()
         self.channel.invalidate_recordset()
         # Execute the picking channel assignations
         self.channel.with_context(queue_job__no_delay=True).action_wake_up()
-
+        self.assertEqual(
+            "2023-01-28 09:00:00",
+            fields.Datetime.to_string(self.channel.process_end_date),
+        )
+        # Check deliveries planned after channel process end date end of day
+        # are not assigned to the channel
+        pickings = self.picking | self.picking2
         self.assertEqual(pickings, self.channel.picking_ids)
         # at this stage, the pickings are not ready to be released as the
         # qty available is not enough
@@ -92,11 +106,11 @@ class ReleaseChannelEndDateCase(ChannelReleaseCase):
         self.assertEqual(pickings, self.channel._get_pickings_to_release())
         # if the scheduled date of one picking is changed to be on a time after the
         # process end date but on the same day, it should still be releasable
-        pickings[0].scheduled_date = fields.Datetime.from_string("2023-01-27 23:30:00")
+        pickings[0].scheduled_date = fields.Datetime.from_string("2023-01-28 23:30:00")
         self.assertEqual(pickings, self.channel._get_pickings_to_release())
         # if the scheduled date of one picking is changed to be on a date after the
         # process end date, it should not be releasable anymore
-        pickings[0].scheduled_date = fields.Datetime.from_string("2023-01-28 00:00:00")
+        pickings[0].scheduled_date = fields.Datetime.from_string("2023-01-29 00:00:00")
         self.assertEqual(pickings[1:], self.channel._get_pickings_to_release())
 
     @freeze_time("2023-01-27 10:00:00")
@@ -114,7 +128,9 @@ class ReleaseChannelEndDateCase(ChannelReleaseCase):
         self.channel.action_sleep()
         self.channel.invalidate_recordset()
         # Execute the picking channel assignations
+        self.picking.scheduled_date = fields.Datetime.now()
         self.channel.with_context(queue_job__no_delay=True).action_wake_up()
+        self.assertEqual(self.picking.release_channel_id, self.channel)
         for picking in self.channel.picking_ids:
             self.assertNotEqual(
                 "2023-01-27 23:00:00", fields.Datetime.to_string(picking.scheduled_date)
@@ -181,14 +197,12 @@ class ReleaseChannelEndDateCase(ChannelReleaseCase):
         # Asleep the release channel to void the process end date
         # The first call to `action_sleep` ensures the channel is set to 'asleep' state,
         # which prevents pickings from being assigned immediately.
-        # We expect a warning on this transition, hence the log assertion.
         # When other active channels exist, pickings could otherwise be reassigned to
         # them. By sleeping this channel and ensuring no reassignment happens,
         # we preserve the pickings in an unassigned state.
         # Upon calling `action_wake_up`, the channel wakes up and reassigns the pending
         # pickings.
-        with self.assertLogs(level="WARNING"):
-            channel.action_sleep()
+        channel.action_sleep()
         new_pickings = channel.picking_ids.move_ids.move_orig_ids.picking_id
         self.assertFalse(new_pickings)
         channel.invalidate_recordset()

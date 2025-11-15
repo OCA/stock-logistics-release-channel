@@ -1,16 +1,16 @@
 # Copyright 2023 ACSONE SA/NV
+# Copyright 2024 Jacques-Etienne Baudoux (BCIM) <je@bcim.be>
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
+from odoo.osv.expression import AND
 from odoo.tools import SQL
 
 
 class StockPicking(models.Model):
     _inherit = "stock.picking"
 
-    # TODO: move this field to stock_release_channel so that we don't have to alter
-    # _field_picking_domains.
     scheduled_date_prior_to_channel_end_date_search = fields.Boolean(
         store=False,
         search="_search_scheduled_date_prior_to_channel_end_date",
@@ -115,3 +115,17 @@ class StockPicking(models.Model):
             ):
                 rec.scheduled_date = rec.release_channel_id.process_end_date
         return res
+
+    @property
+    def _release_channel_possible_candidate_domain_base(self):
+        domain = super()._release_channel_possible_candidate_domain_base
+        wh_tz = self.picking_type_id.warehouse_id.partner_id.tz or "UTC"
+        channel = self.env["stock.release.channel"]
+        delivery_date_tz = channel._localize(self.scheduled_date, tz=wh_tz)
+        delivery_date = channel._naive(delivery_date_tz, reset_time=True)
+        domain_scheduled_date = [
+            "|",
+            ("process_end_date", "=", False),
+            ("process_end_date", ">", delivery_date),
+        ]
+        return AND([domain, domain_scheduled_date])
