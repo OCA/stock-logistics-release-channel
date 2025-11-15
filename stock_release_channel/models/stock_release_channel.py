@@ -12,7 +12,7 @@ from operator import itemgetter
 import pytz
 
 from odoo import api, exceptions, fields, models
-from odoo.osv.expression import NEGATIVE_TERM_OPERATORS
+from odoo.osv.expression import AND, NEGATIVE_TERM_OPERATORS
 from odoo.tools import groupby
 from odoo.tools.safe_eval import (
     datetime as safe_datetime,
@@ -320,18 +320,23 @@ class StockReleaseChannel(models.Model):
             ("need_release", "=", True),
         ]
 
+    @property
+    def _field_picking_domain_release_ready_extra(self):
+        # Allow stock_release_channel_process_end_time to restrict domain based
+        # on scheduled date
+        return []
+
     def _field_picking_domains(self):
         return {
             "all": [],
-            "release_ready": [
-                ("release_ready", "=", True),
-                # FIXME not TZ friendly
-                (
-                    "scheduled_date",
-                    "<",
-                    fields.Datetime.now().replace(hour=23, minute=59),
-                ),
-            ],
+            "release_ready": AND(
+                [
+                    [
+                        ("release_ready", "=", True),
+                    ],
+                    self._field_picking_domain_release_ready_extra,
+                ]
+            ),
             "released": [
                 ("last_release_date", "!=", False),
                 ("state", "in", ("assigned", "waiting", "confirmed")),
