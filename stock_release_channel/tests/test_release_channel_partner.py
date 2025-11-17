@@ -11,12 +11,12 @@ class ReleaseChannelPartnerCommon(ReleaseChannelCase):
         cls.partner = cls.env["res.partner"].create({"name": "partner"})
         cls.partner_channel = cls._create_channel(
             name="partner channel",
-            sequence=20,
+            sequence=10,
             code="pickings = pickings.filtered(lambda p: p.priority == '1')",
         )
         cls.other_channel = cls._create_channel(
             name="Test Domain",
-            sequence=10,
+            sequence=20,
             rule_domain=[("priority", "=", "1")],
         )
         cls.move = cls._create_single_move(cls.product1, 10)

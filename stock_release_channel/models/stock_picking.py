@@ -141,11 +141,7 @@ class StockPicking(models.Model):
         log = self.env.context.get("assign_release_channel_log_stream")
         if log:
             log.write(f"Find possible channels domain: {domain}\n")
-        return (
-            self.env["stock.release.channel"]
-            .search(domain)
-            .sorted(key=lambda r: (not bool(r.partner_ids), r.sequence))
-        )
+        return self.env["stock.release.channel"].search(domain)
 
     @property
     def _release_channel_possible_candidate_domain(self):
