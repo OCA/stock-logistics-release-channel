@@ -4,7 +4,7 @@
 {
     "name": "Stock Release Channels - Partner Address",
     "summary": "Allows defining countries and states filters on channels",
-    "version": "18.0.1.0.1",
+    "version": "18.0.1.1.0",
     "development_status": "Beta",
     "license": "AGPL-3",
     "author": "Camptocamp, BCIM, Odoo Community Association (OCA)",

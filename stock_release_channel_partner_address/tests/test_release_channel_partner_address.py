@@ -38,6 +38,7 @@ class TestReleaseChannelPartnerAddress(ReleaseChannelCase):
                 "country_ids": [],
                 "state_ids": [],
                 "state": "open",
+                "collect_pickings": True,
             }
         )
         cls.channel_it = cls.env["stock.release.channel"].create(
@@ -46,6 +47,7 @@ class TestReleaseChannelPartnerAddress(ReleaseChannelCase):
                 "country_ids": [(4, cls.italy.id)],
                 "state_ids": [],
                 "state": "open",
+                "collect_pickings": True,
             }
         )
         cls.channel_uk = cls.env["stock.release.channel"].create(
@@ -56,6 +58,7 @@ class TestReleaseChannelPartnerAddress(ReleaseChannelCase):
                 "country_ids": [(4, cls.env.ref("base.uk").id)],
                 "state_ids": [],
                 "state": "open",
+                "collect_pickings": True,
             }
         )
         cls.channel_it_an = cls.env["stock.release.channel"].create(
@@ -64,6 +67,7 @@ class TestReleaseChannelPartnerAddress(ReleaseChannelCase):
                 "country_ids": [(4, cls.italy.id)],
                 "state_ids": [(4, cls.ancona.id)],
                 "state": "open",
+                "collect_pickings": True,
             }
         )
         cls.channel_it_rm = cls.env["stock.release.channel"].create(
@@ -74,6 +78,7 @@ class TestReleaseChannelPartnerAddress(ReleaseChannelCase):
                 "country_ids": [(4, cls.italy.id)],
                 "state_ids": [(4, cls.roma.id)],
                 "state": "open",
+                "collect_pickings": True,
             }
         )
         cls.channel_it_an_rm = cls.env["stock.release.channel"].create(
@@ -84,6 +89,7 @@ class TestReleaseChannelPartnerAddress(ReleaseChannelCase):
                 "country_ids": [(4, cls.italy.id)],
                 "state_ids": [(4, cls.ancona.id), (4, cls.roma.id)],
                 "state": "open",
+                "collect_pickings": True,
             }
         )
         cls.all_channels = (
