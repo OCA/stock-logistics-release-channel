@@ -106,6 +106,7 @@ class TestReleaseChannel(ReleaseChannelCase):
         self.assertEqual(move.picking_id.release_channel_id.id, False)
         # Automatic Assignment
         self.default_channel.is_manual_assignment = False
+        self.default_channel.collect_pickings = True
         move = self._create_single_move(self.product1, 10)
         move.picking_id.assign_release_channel()
         self.assertEqual(move.picking_id.release_channel_id.id, self.default_channel.id)

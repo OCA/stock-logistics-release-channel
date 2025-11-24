@@ -23,6 +23,22 @@
                         invisible="not is_action_unlock_allowed"
                     />
                     <button
+                        name="action_collect_restart"
+                        string="Restart Collecting"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-hourglass-start"
+                        invisible="not is_action_collect_restart_allowed"
+                    />
+                    <button
+                        name="action_collect_stop"
+                        string="Stop Collecting"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-stop-circle"
+                        invisible="not is_action_collect_stop_allowed"
+                    />
+                    <button
                         name="action_sleep"
                         string="Sleep"
                         type="object"
@@ -248,7 +264,14 @@
                 <field name="count_picking_chain" />
                 <field name="show_last_picking_done" />
                 <field name="state" />
+                <field name="collect_pickings" />
                 <field name="is_release_allowed" />
+                <field name="is_action_lock_allowed" />
+                <field name="is_action_unlock_allowed" />
+                <field name="is_action_collect_restart_allowed" />
+                <field name="is_action_collect_stop_allowed" />
+                <field name="is_action_sleep_allowed" />
+                <field name="is_action_wake_up_allowed" />
                 <templates>
                     <t t-name="menu">
                         <div class="container o_kanban_card_manage_pane">
@@ -256,22 +279,6 @@
                                 <div
                                     class="col-6 o_kanban_card_manage_section o_kanban_manage_view"
                                 >
-                                    <field
-                                        name="is_action_lock_allowed"
-                                        invisible="1"
-                                    />
-                                    <field
-                                        name="is_action_unlock_allowed"
-                                        invisible="1"
-                                    />
-                                    <field
-                                        name="is_action_sleep_allowed"
-                                        invisible="1"
-                                    />
-                                    <field
-                                        name="is_action_wake_up_allowed"
-                                        invisible="1"
-                                    />
                                     <div
                                         role="menuitem"
                                         class="o_kanban_card_manage_title"
@@ -297,6 +304,36 @@
                                                 icon="fa-unlock"
                                             >
                                                 <span class="ms-2">Unlock</span>
+                                            </a>
+                                        </div>
+                                    </t>
+                                    <t
+                                        t-if="record.is_action_collect_restart_allowed.raw_value"
+                                    >
+                                        <div role="menuitem">
+                                            <a
+                                                name="action_collect_restart"
+                                                type="object"
+                                                icon="fa-hourglass-start"
+                                            >
+                                                <span
+                                                    class="ms-2"
+                                                >Restart Collecting</span>
+                                            </a>
+                                        </div>
+                                    </t>
+                                    <t
+                                        t-if="record.is_action_collect_stop_allowed.raw_value"
+                                    >
+                                        <div role="menuitem">
+                                            <a
+                                                name="action_collect_stop"
+                                                type="object"
+                                                icon="fa-stop-circle"
+                                            >
+                                                <span
+                                                    class="ms-2"
+                                                >Stop Collecting</span>
                                             </a>
                                         </div>
                                     </t>
@@ -357,7 +394,12 @@
                                     <div class="o_kanban_card_header_title">
                                         <div class="o_primary">
                                             <field name="name" />
-                                            <field name="state" invisible="1" />
+                                            <i
+                                                t-attf-class="fa {{ record.collect_pickings.raw_value and 'fa-hourglass-start' or 'fa-stop-circle' }}"
+                                                role="img"
+                                                title="collect pickings"
+                                                style="float: right; margin-right: 14px; line-height: 24px"
+                                            />
                                             <t
                                                 t-set="classname"
                                                 t-value="{'open': 'fa fa-unlock', 'locked': 'fa fa-lock', 'asleep': 'fa fa-bed'}[record.state.raw_value] || ''"
@@ -366,7 +408,7 @@
                                                 t-attf-class="{{ classname }}"
                                                 role="img"
                                                 title="state"
-                                                style="float: right; margin-right: 14px; line-height: 24px"
+                                                style="float: right; margin-right: 8px; line-height: 24px"
                                             />
                                         </div>
                                     </div>
