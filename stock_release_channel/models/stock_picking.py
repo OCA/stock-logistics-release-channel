@@ -71,6 +71,10 @@ class StockPicking(models.Model):
                     )
                     % channel.name
                 )
+        # Prefetches move_orig_ids data, to avoid a parallel bitmap heap scan
+        # triggered by _inverse_release_channel_id, while getting origin moves
+        # matching the company.
+        self.move_ids.move_orig_ids.mapped("state")
         return super().release_available_to_promise()
 
     def _create_backorder(self, backorder_moves=None):
