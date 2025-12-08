@@ -98,6 +98,11 @@ class StockPicking(models.Model):
     def release_available_to_promise(self):
         for record in self:
             channel = record.release_channel_id
+            if not channel:
+                # When releasing a delivery not part of a channel (the job may
+                # not have run yet), try first to assign a channel
+                channel.assign_release_channel(record)
+                channel = record.release_channel_id
             if channel.release_forbidden:
                 raise exceptions.UserError(
                     self.env._(
