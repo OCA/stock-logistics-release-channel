@@ -111,6 +111,9 @@
                                 <field name="state_at_wakeup" />
                                 <field name="release_forbidden" />
                                 <field
+                                    name="recompute_channel_on_pickings_at_release"
+                                />
+                                <field
                                     name="release_mode"
                                     invisible="release_forbidden"
                                 />

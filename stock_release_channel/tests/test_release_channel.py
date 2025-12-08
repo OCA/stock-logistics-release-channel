@@ -122,11 +122,10 @@ class TestReleaseChannel(ReleaseChannelCase):
         move.picking_id.priority = "1"  # To find new suitable channel for this picking
 
         # Test with recompute_channel_on_pickings_at_release = False
-        self.env.company.recompute_channel_on_pickings_at_release = False
         move.release_available_to_promise()
         self.assertEqual(move.picking_id.release_channel_id, self.default_channel)
         # Test with recompute_channel_on_pickings_at_release = False
-        self.env.company.recompute_channel_on_pickings_at_release = True
+        self.default_channel.recompute_channel_on_pickings_at_release = True
         move.release_available_to_promise()
         self.assertEqual(move.picking_id.release_channel_id, channel)
 

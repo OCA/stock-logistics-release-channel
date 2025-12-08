@@ -51,6 +51,12 @@ class StockReleaseChannel(models.Model):
 
     name = fields.Char(required=True)
     release_forbidden = fields.Boolean(string="Forbid to release this channel")
+    recompute_channel_on_pickings_at_release = fields.Boolean(
+        help="When releasing a transfer, recompute the channel. Be carefull "
+        "when using this in conjuction with channel lifecycle (stop/start "
+        "collecting, sleep/wake up) as a delivery could be kicked out of a "
+        "channel if you stop collecting and recompute after release",
+    )
     sequence = fields.Integer(default=lambda self: self._default_sequence())
     color = fields.Integer()
     company_id = fields.Many2one(
