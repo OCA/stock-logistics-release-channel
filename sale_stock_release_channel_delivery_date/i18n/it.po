@@ -17,6 +17,11 @@ msgstr ""
 "X-Generator: Weblate 5.10.4\n"
 
 #. module: sale_stock_release_channel_delivery_date
+#: model:ir.model,name:sale_stock_release_channel_delivery_date.model_resource_calendar
+msgid "Resource Working Time"
+msgstr ""
+
+#. module: sale_stock_release_channel_delivery_date
 #: model:ir.model,name:sale_stock_release_channel_delivery_date.model_sale_order
 msgid "Sales Order"
 msgstr "Ordine di vendita"
@@ -25,3 +30,13 @@ msgstr "Ordine di vendita"
 #: model:ir.model,name:sale_stock_release_channel_delivery_date.model_sale_order_line
 msgid "Sales Order Line"
 msgstr "Riga ordine di vendita"
+
+#. module: sale_stock_release_channel_delivery_date
+#: model:ir.model,name:sale_stock_release_channel_delivery_date.model_stock_release_channel
+msgid "Stock Release Channels"
+msgstr ""
+
+#. module: sale_stock_release_channel_delivery_date
+#: model:ir.model,name:sale_stock_release_channel_delivery_date.model_stock_warehouse
+msgid "Warehouse"
+msgstr ""
