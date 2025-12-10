@@ -2,6 +2,7 @@
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 
 from odoo import models
+from odoo.tools import str2bool
 
 
 class StockMove(models.Model):
@@ -12,7 +13,7 @@ class StockMove(models.Model):
         if (
             self.picking_id.picking_type_code == "outgoing"
             and self.picking_id.release_channel_id.process_end_date
-            and bool(
+            and str2bool(
                 self.env["ir.config_parameter"]
                 .sudo()
                 .get_param(
