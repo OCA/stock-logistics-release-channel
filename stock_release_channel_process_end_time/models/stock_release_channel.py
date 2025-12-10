@@ -4,6 +4,7 @@
 from datetime import timedelta
 
 from odoo import api, fields, models
+from odoo.tools import str2bool
 
 from odoo.addons.base.models.res_partner import _tz_get
 
@@ -104,7 +105,7 @@ class StockReleaseChannel(models.Model):
     def _get_expected_date(self):
         # Use channel process end date
         self.ensure_one()
-        enabled_update_scheduled_date = bool(
+        enabled_update_scheduled_date = str2bool(
             self.env["ir.config_parameter"]
             .sudo()
             .get_param(
