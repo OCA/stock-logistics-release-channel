@@ -32,8 +32,18 @@ msgstr "<span class=\"ms-2\">Blocca</span>"
 
 #. module: stock_release_channel
 #: model_terms:ir.ui.view,arch_db:stock_release_channel.stock_release_channel_kanban_view
+msgid "<span class=\"ms-2\">Restart Collecting</span>"
+msgstr ""
+
+#. module: stock_release_channel
+#: model_terms:ir.ui.view,arch_db:stock_release_channel.stock_release_channel_kanban_view
 msgid "<span class=\"ms-2\">Sleep</span>"
 msgstr "<span class=\"ms-2\">Sospendi</span>"
+
+#. module: stock_release_channel
+#: model_terms:ir.ui.view,arch_db:stock_release_channel.stock_release_channel_kanban_view
+msgid "<span class=\"ms-2\">Stop Collecting</span>"
+msgstr ""
 
 #. module: stock_release_channel
 #: model_terms:ir.ui.view,arch_db:stock_release_channel.stock_release_channel_kanban_view
@@ -49,6 +59,18 @@ msgstr "<span class=\"ms-2\">Riattiva</span>"
 #: model_terms:ir.ui.view,arch_db:stock_release_channel.stock_release_channel_kanban_view
 msgid "<span>Actions</span>"
 msgstr "<span>Azioni</span>"
+
+#. module: stock_release_channel
+#. odoo-python
+#: code:addons/stock_release_channel/models/stock_release_channel.py:0
+msgid "Action 'Collect Restart' is not allowed for channel %(name)s."
+msgstr ""
+
+#. module: stock_release_channel
+#. odoo-python
+#: code:addons/stock_release_channel/models/stock_release_channel.py:0
+msgid "Action 'Collect Stop' is not allowed for channel %(name)s."
+msgstr ""
 
 #. module: stock_release_channel
 #. odoo-python
@@ -117,6 +139,11 @@ msgid "All transfers required to bring goods to the deliveries."
 msgstr "Tutti i trasferimenti richiesti per trasportare i beni alle consegne."
 
 #. module: stock_release_channel
+#: model:ir.model.fields,help:stock_release_channel.field_stock_release_channel__collect_pickings
+msgid "Allows you to control if pickings are assigned to the release channel."
+msgstr ""
+
+#. module: stock_release_channel
 #: model_terms:ir.ui.view,arch_db:stock_release_channel.stock_release_channel_form_view
 #: model_terms:ir.ui.view,arch_db:stock_release_channel.stock_release_channel_search_view
 msgid "Archived"
@@ -175,6 +202,11 @@ msgstr "Il canale %(name)s non ha ancora un trasferimento validato."
 #: model:ir.model.fields,field_description:stock_release_channel.field_res_config_settings__release_channel_show_last_picking_done
 msgid "Channels dashboard - Show last delivery done"
 msgstr "Dashboard canali - Visualizza l'ultima consegna eseguita"
+
+#. module: stock_release_channel
+#: model:ir.model.fields,field_description:stock_release_channel.field_stock_release_channel__collect_pickings
+msgid "Collect Pickings"
+msgstr ""
 
 #. module: stock_release_channel
 #: model:ir.model.fields,field_description:stock_release_channel.field_stock_release_channel__color
@@ -297,6 +329,16 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:stock_release_channel.stock_release_channel_form_view
 msgid "Internal transfers"
 msgstr "Trasferimento interno"
+
+#. module: stock_release_channel
+#: model:ir.model.fields,field_description:stock_release_channel.field_stock_release_channel__is_action_collect_restart_allowed
+msgid "Is Action Collect Restart Allowed"
+msgstr ""
+
+#. module: stock_release_channel
+#: model:ir.model.fields,field_description:stock_release_channel.field_stock_release_channel__is_action_collect_stop_allowed
+msgid "Is Action Collect Stop Allowed"
+msgstr ""
 
 #. module: stock_release_channel
 #: model:ir.model.fields,field_description:stock_release_channel.field_stock_release_channel__is_action_lock_allowed
@@ -510,15 +552,9 @@ msgid "Re-assign release channel"
 msgstr "Riassegna canale rilascio"
 
 #. module: stock_release_channel
-#: model:ir.model.fields,field_description:stock_release_channel.field_res_company__recompute_channel_on_pickings_at_release
-#: model:ir.model.fields,field_description:stock_release_channel.field_res_config_settings__recompute_channel_on_pickings_at_release
+#: model:ir.model.fields,field_description:stock_release_channel.field_stock_release_channel__recompute_channel_on_pickings_at_release
 msgid "Recompute Channel On Pickings At Release"
 msgstr "Ricalcola canale sui prelievi al rilascio"
-
-#. module: stock_release_channel
-#: model_terms:ir.ui.view,arch_db:stock_release_channel.res_config_settings_view
-msgid "Recompute channel when releasing a transfer"
-msgstr "Ricalcola canale al rilascio di un trasferimento"
 
 #. module: stock_release_channel
 #: model_terms:ir.ui.view,arch_db:stock_release_channel.stock_release_channel_tree_view
@@ -585,6 +621,11 @@ msgstr "Trasferimenti rilasciati"
 
 #. module: stock_release_channel
 #: model_terms:ir.ui.view,arch_db:stock_release_channel.stock_release_channel_form_view
+msgid "Restart Collecting"
+msgstr ""
+
+#. module: stock_release_channel
+#: model_terms:ir.ui.view,arch_db:stock_release_channel.stock_release_channel_form_view
 msgid "Selection criteria"
 msgstr "Criteri di selezione"
 
@@ -634,6 +675,21 @@ msgid "Stock Release Channels"
 msgstr "Canali rilascio magazzino"
 
 #. module: stock_release_channel
+#: model_terms:ir.ui.view,arch_db:stock_release_channel.stock_release_channel_form_view
+msgid "Stop Collecting"
+msgstr ""
+
+#. module: stock_release_channel
+#: model:ir.model.fields,help:stock_release_channel.field_stock_release_channel__is_action_collect_restart_allowed
+msgid "Technical field to check if the action 'Collect Restart' is allowed."
+msgstr ""
+
+#. module: stock_release_channel
+#: model:ir.model.fields,help:stock_release_channel.field_stock_release_channel__is_action_collect_stop_allowed
+msgid "Technical field to check if the action 'Collect Stop' is allowed."
+msgstr ""
+
+#. module: stock_release_channel
 #: model:ir.model.fields,help:stock_release_channel.field_stock_release_channel__is_action_lock_allowed
 msgid "Technical field to check if the action 'Lock' is allowed."
 msgstr "Campo tecnico per controllare se è consentita l'azione 'Blocco'."
@@ -676,20 +732,11 @@ msgstr "Il rilascio dei prelievi non è consentito per il canale %(name)s."
 #: model:ir.model.fields,help:stock_release_channel.field_stock_release_channel__state
 msgid ""
 "The state allows you to control the availability of the release channel.\n"
-" * Open: Manual and automatic picking assignment to the release is effective "
-"and release operations are allowed.\n"
-"* Locked: Release operations are forbidden. (Assignement processes are still "
-"working)\n"
+" * Open: Release operations are allowed.\n"
+"* Locked: Release operations are forbidden.\n"
 "* Asleep: Assigned pickings not processed are unassigned from the release "
 "channel.\n"
 msgstr ""
-"Lo stato consenti di controllare la disponibilità del canale di rilascio.\n"
-" * Aperto: assegnazione manuale e automatica del prelievo al rilascio è "
-"attiva e le operazioni di rilascio sono consentite.\n"
-"* Bloccato: le operazioni di rilascio sono vietate. (i processi di "
-"assegnazione sono ancora in lavoro)\n"
-"* Sospeso: i prelievi assegnati e non elaborati vengono revocati dal canale "
-"di rilascio.\n"
 
 #. module: stock_release_channel
 #: model:ir.model.fields,help:stock_release_channel.field_stock_release_channel__state_at_wakeup
@@ -700,6 +747,12 @@ msgstr "Stado del canale al momento dell'attivazione"
 #: model:ir.model.fields,help:stock_release_channel.field_stock_release_channel__count_picking_full_progress
 msgid "The total number of pickings to achieve 100% of progress."
 msgstr "Numero totale di prelievi per raggiungere il 100% del progresso."
+
+#. module: stock_release_channel
+#. odoo-python
+#: code:addons/stock_release_channel/models/stock_release_channel.py:0
+msgid "This channel is restricted for manual assignment!"
+msgstr ""
 
 #. module: stock_release_channel
 #: model_terms:ir.ui.view,arch_db:stock_release_channel.stock_release_channel_kanban_view
@@ -788,15 +841,24 @@ msgstr ""
 "quelli in corso non spediti (W - in attesa). Questo campo definisce X."
 
 #. module: stock_release_channel
-#: model:ir.model.fields,help:stock_release_channel.field_res_company__recompute_channel_on_pickings_at_release
-#: model:ir.model.fields,help:stock_release_channel.field_res_config_settings__recompute_channel_on_pickings_at_release
-msgid "When releasing a transfer, recompute channel"
-msgstr "Al rilascio di un trasferimento, ricalcolare il canale"
+#: model:ir.model.fields,help:stock_release_channel.field_stock_release_channel__recompute_channel_on_pickings_at_release
+msgid ""
+"When releasing a transfer, recompute the channel. Be carefull when using "
+"this in conjuction with channel lifecycle (stop/start collecting, sleep/wake "
+"up) as a delivery could be kicked out of a channel if you stop collecting "
+"and recompute after release"
+msgstr ""
 
 #. module: stock_release_channel
 #: model:ir.model.fields,help:stock_release_channel.field_stock_release_channel__code
 msgid "Write Python code to filter out pickings."
 msgstr "Scrivere il codice Python per filtrare i prelievi."
+
+#. module: stock_release_channel
+#. odoo-python
+#: code:addons/stock_release_channel/models/stock_release_channel.py:0
+msgid "You cannot collect pickings with current state!"
+msgstr ""
 
 #. module: stock_release_channel
 #. odoo-python
@@ -810,8 +872,37 @@ msgstr ""
 
 #. module: stock_release_channel
 #: model_terms:ir.ui.view,arch_db:stock_release_channel.stock_release_channel_kanban_view
+msgid "collect pickings"
+msgstr ""
+
+#. module: stock_release_channel
+#: model_terms:ir.ui.view,arch_db:stock_release_channel.stock_release_channel_kanban_view
 msgid "state"
 msgstr "Stato"
+
+#~ msgid "Recompute channel when releasing a transfer"
+#~ msgstr "Ricalcola canale al rilascio di un trasferimento"
+
+#~ msgid ""
+#~ "The state allows you to control the availability of the release channel.\n"
+#~ " * Open: Manual and automatic picking assignment to the release is "
+#~ "effective and release operations are allowed.\n"
+#~ "* Locked: Release operations are forbidden. (Assignement processes are "
+#~ "still working)\n"
+#~ "* Asleep: Assigned pickings not processed are unassigned from the release "
+#~ "channel.\n"
+#~ msgstr ""
+#~ "Lo stato consenti di controllare la disponibilità del canale di "
+#~ "rilascio.\n"
+#~ " * Aperto: assegnazione manuale e automatica del prelievo al rilascio è "
+#~ "attiva e le operazioni di rilascio sono consentite.\n"
+#~ "* Bloccato: le operazioni di rilascio sono vietate. (i processi di "
+#~ "assegnazione sono ancora in lavoro)\n"
+#~ "* Sospeso: i prelievi assegnati e non elaborati vengono revocati dal "
+#~ "canale di rilascio.\n"
+
+#~ msgid "When releasing a transfer, recompute channel"
+#~ msgstr "Al rilascio di un trasferimento, ricalcolare il canale"
 
 #~ msgid ""
 #~ "<i class=\"fa fa-ellipsis-v\" role=\"img\" aria-label=\"Details\" "
