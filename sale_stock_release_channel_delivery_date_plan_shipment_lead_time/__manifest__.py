@@ -3,7 +3,7 @@
 {
     "name": "Sale Stock Release Channel Delivery Date Plan Shipment Lead Time",
     "summary": "Sale Stock Release Channel Delivery Date Plan Shipment Lead Time",
-    "version": "18.0.1.0.0",
+    "version": "18.0.1.0.1",
     "category": "Uncategorized",
     "website": "https://github.com/OCA/stock-logistics-release-channel",
     "author": "Camptocamp, Odoo Community Association (OCA)",
