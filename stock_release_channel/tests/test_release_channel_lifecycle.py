@@ -47,12 +47,52 @@ class TestReleaseChannelLifeCycle(ReleaseChannelCase):
         move.picking_id.assign_release_channel()
         self.assertEqual(move.picking_id.release_channel_id, self.default_channel)
         copy_channel = self.default_channel.copy(
-            {"name": "channel copy", "state": "open"}
+            {"name": "channel copy", "state": "open", "collect_pickings": True}
         )
         with trap_jobs() as trap:
             self.default_channel.action_sleep()
             trap.perform_enqueued_jobs()
         self.assertEqual(move.picking_id.release_channel_id, copy_channel)
+
+    def test_release_channel_collect_stop_unassign(self):
+        move = self._create_single_move(self.product1, 10)
+        move.need_release = True
+        move.picking_id.release_channel_id = self.default_channel
+        self.assertTrue(self.default_channel.collect_pickings)
+        self.assertFalse(move.picking_id.release_ready)
+        with trap_jobs() as trap:
+            self.default_channel.action_collect_stop()
+            trap.assert_jobs_count(1)
+            trap.assert_enqueued_job(
+                move.picking_id.assign_release_channel,
+                args=(),
+                kwargs={},
+                properties=dict(
+                    identity_key=identity_exact,
+                ),
+            )
+            trap.enqueued_jobs[0].perform()
+        self.assertFalse(move.picking_id.release_channel_id)
+
+    def test_release_channel_collect_restart_assign(self):
+        self.default_channel.collect_pickings = False
+        move = self._create_single_move(self.product1, 10)
+        move.need_release = True
+        self.assertFalse(move.picking_id.release_channel_id)
+        with trap_jobs() as trap:
+            self.default_channel.action_collect_restart()
+            trap.assert_jobs_count(1)
+            trap.assert_enqueued_job(
+                move.picking_id.assign_release_channel,
+                args=(),
+                kwargs={},
+                properties=dict(
+                    identity_key=identity_exact,
+                ),
+            )
+            trap.enqueued_jobs[0].perform()
+        self.assertTrue(self.default_channel.collect_pickings)
+        self.assertEqual(move.picking_id.release_channel_id, self.default_channel)
 
     def test_release_channel_wake_up_assign(self):
         self.default_channel.action_sleep()

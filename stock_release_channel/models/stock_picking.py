@@ -153,8 +153,7 @@ class StockPicking(models.Model):
         self.ensure_one()
         domain_base = self._release_channel_possible_candidate_domain_base
         domain = [
-            ("is_manual_assignment", "=", False),
-            ("state", "in", ("open", "locked")),
+            ("collect_pickings", "=", True),
             "|",
             ("picking_type_ids", "=", False),
             ("picking_type_ids", "in", self.picking_type_id.ids),

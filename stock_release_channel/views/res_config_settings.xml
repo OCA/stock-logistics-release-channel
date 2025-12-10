@@ -17,13 +17,6 @@
                         Show last delivery done in release channels dashboard
                     </div>
                 </setting>
-
-                <setting name="recompute_channel_on_pickings_at_release">
-                    <field name="recompute_channel_on_pickings_at_release" />
-                    <div class="text-muted">
-                        Recompute channel when releasing a transfer
-                    </div>
-                </setting>
             </xpath>
         </field>
     </record>

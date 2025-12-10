@@ -51,6 +51,12 @@ class StockReleaseChannel(models.Model):
 
     name = fields.Char(required=True)
     release_forbidden = fields.Boolean(string="Forbid to release this channel")
+    recompute_channel_on_pickings_at_release = fields.Boolean(
+        help="When releasing a transfer, recompute the channel. Be carefull "
+        "when using this in conjuction with channel lifecycle (stop/start "
+        "collecting, sleep/wake up) as a delivery could be kicked out of a "
+        "channel if you stop collecting and recompute after release",
+    )
     sequence = fields.Integer(default=lambda self: self._default_sequence())
     color = fields.Integer()
     company_id = fields.Many2one(
@@ -202,13 +208,16 @@ class StockReleaseChannel(models.Model):
     )
     last_done_picking_name = fields.Char(compute="_compute_last_done_picking")
     last_done_picking_date_done = fields.Datetime(compute="_compute_last_done_picking")
+    collect_pickings = fields.Boolean(
+        compute="_compute_collect_pickings",
+        store=True,
+        help="Allows you to control if pickings are assigned to the release channel.",
+    )
     state = fields.Selection(
         selection=[("open", "Open"), ("locked", "Locked"), ("asleep", "Asleep")],
         help="The state allows you to control the availability of the release channel."
-        "\n * Open: Manual and automatic picking assignment to the release is effective"
-        " and release operations are allowed.\n"
-        "* Locked: Release operations are forbidden. (Assignement processes are "
-        "still working)\n"
+        "\n * Open: Release operations are allowed.\n"
+        "* Locked: Release operations are forbidden.\n"
         "* Asleep: Assigned pickings not processed are unassigned from the release "
         "channel.\n",
         default="asleep",
@@ -226,6 +235,14 @@ class StockReleaseChannel(models.Model):
     is_action_unlock_allowed = fields.Boolean(
         compute="_compute_is_action_unlock_allowed",
         help="Technical field to check if the " "action 'Unlock' is allowed.",
+    )
+    is_action_collect_restart_allowed = fields.Boolean(
+        compute="_compute_is_action_collect_restart_allowed",
+        help="Technical field to check if the " "action 'Collect Restart' is allowed.",
+    )
+    is_action_collect_stop_allowed = fields.Boolean(
+        compute="_compute_is_action_collect_stop_allowed",
+        help="Technical field to check if the " "action 'Collect Stop' is allowed.",
     )
     is_action_sleep_allowed = fields.Boolean(
         compute="_compute_is_action_sleep_allowed",
@@ -255,6 +272,32 @@ class StockReleaseChannel(models.Model):
     )
     is_manual_assignment = fields.Boolean("Manual assignment")
 
+    @property
+    def _valid_states_for_collect_pickings(self):
+        return ("open", "locked")
+
+    @api.depends("state", "is_manual_assignment")
+    def _compute_collect_pickings(self):
+        for rec in self:
+            if (
+                rec.state not in rec._valid_states_for_collect_pickings
+                or rec.is_manual_assignment
+            ):
+                rec.collect_pickings = False
+
+    @api.constrains("collect_pickings")
+    def _check_collect_pickings(self):
+        for rec in self:
+            if rec.collect_pickings:
+                if rec.state not in rec._valid_states_for_collect_pickings:
+                    raise exceptions.ValidationError(
+                        self.env._("You cannot collect pickings with current state!")
+                    )
+                if rec.is_manual_assignment:
+                    raise exceptions.ValidationError(
+                        self.env._("This channel is restricted for manual assignment!")
+                    )
+
     @api.depends("state")
     def _compute_is_action_lock_allowed(self):
         for rec in self:
@@ -264,6 +307,20 @@ class StockReleaseChannel(models.Model):
     def _compute_is_action_unlock_allowed(self):
         for rec in self:
             rec.is_action_unlock_allowed = rec.state == "locked"
+
+    @api.depends("state")
+    def _compute_is_action_collect_restart_allowed(self):
+        for rec in self:
+            rec.is_action_collect_restart_allowed = (
+                not rec.collect_pickings
+                and rec.state in rec._valid_states_for_collect_pickings
+                and not rec.is_manual_assignment
+            )
+
+    @api.depends("state")
+    def _compute_is_action_collect_stop_allowed(self):
+        for rec in self:
+            rec.is_action_collect_stop_allowed = rec.collect_pickings
 
     @api.depends("state")
     def _compute_is_action_sleep_allowed(self):
@@ -878,6 +935,26 @@ class StockReleaseChannel(models.Model):
                     )
                 )
 
+    def _check_is_action_collect_restart_allowed(self):
+        for rec in self:
+            if not rec.is_action_collect_restart_allowed:
+                raise exceptions.UserError(
+                    self.env._(
+                        "Action 'Collect Restart' is not allowed for channel %(name)s.",
+                        name=rec.name,
+                    )
+                )
+
+    def _check_is_action_collect_stop_allowed(self):
+        for rec in self:
+            if not rec.is_action_collect_stop_allowed:
+                raise exceptions.UserError(
+                    self.env._(
+                        "Action 'Collect Stop' is not allowed for channel %(name)s.",
+                        name=rec.name,
+                    )
+                )
+
     def _check_is_action_sleep_allowed(self):
         for rec in self:
             if not rec.is_action_sleep_allowed:
@@ -906,6 +983,19 @@ class StockReleaseChannel(models.Model):
         self._check_is_action_unlock_allowed()
         self.write({"state": "open"})
 
+    def action_collect_restart(self):
+        self._check_is_action_collect_restart_allowed()
+        self.collect_pickings = True
+        self.assign_pickings()
+
+    def action_collect_stop(self):
+        self._check_is_action_collect_stop_allowed()
+        self.collect_pickings = False
+        in_need_release = self.picking_ids.filtered("need_release")
+        to_unassign = in_need_release.filtered(lambda p: not p.release_ready)
+        to_unassign.release_channel_id = False
+        to_unassign._delay_assign_release_channel()
+
     def action_sleep(self):
         self._check_is_action_sleep_allowed()
         pickings_to_unassign = self.env["stock.picking"].search(
@@ -913,13 +1003,23 @@ class StockReleaseChannel(models.Model):
         )
         pickings_to_unassign.write({"release_channel_id": False})
         pickings_to_unassign.unrelease()
-        self.write({"state": "asleep"})
+        self.write(
+            {
+                "state": "asleep",
+                "collect_pickings": False,
+            }
+        )
         pickings_to_unassign._delay_assign_release_channel()
 
     def action_wake_up(self):
         self._check_is_action_wake_up_allowed()
         for rec in self:
-            rec.state = rec.state_at_wakeup
+            rec.write(
+                {
+                    "state": rec.state_at_wakeup,
+                    "collect_pickings": True,
+                }
+            )
         self.assign_pickings()
 
     @api.model

@@ -41,7 +41,7 @@ class StockReleaseChannel(models.Model):
         now = fields.Datetime.now()
         for channel in self:
             cutoff_warning = False
-            if channel.state == "open" and channel.cutoff_time:
+            if channel.collect_pickings and channel.cutoff_time:
                 cutoff_warning = channel.cutoff_datetime(channel.process_end_date) < now
             channel.cutoff_warning = cutoff_warning
 
