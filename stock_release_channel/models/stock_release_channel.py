@@ -684,7 +684,6 @@ class StockReleaseChannel(models.Model):
             message_template = (
                 "Transfer %(picking_name)s could not be assigned to a channel"
             )
-            _logger.warning(message_template, {"picking_name": picking.name})
             message = self.env._(message_template, picking_name=picking.name)
         return message
 
