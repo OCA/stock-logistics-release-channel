@@ -27,7 +27,17 @@ msgstr ""
 
 #. module: stock_release_channel
 #: model_terms:ir.ui.view,arch_db:stock_release_channel.stock_release_channel_kanban_view
+msgid "<span class=\"ms-2\">Restart Collecting</span>"
+msgstr ""
+
+#. module: stock_release_channel
+#: model_terms:ir.ui.view,arch_db:stock_release_channel.stock_release_channel_kanban_view
 msgid "<span class=\"ms-2\">Sleep</span>"
+msgstr ""
+
+#. module: stock_release_channel
+#: model_terms:ir.ui.view,arch_db:stock_release_channel.stock_release_channel_kanban_view
+msgid "<span class=\"ms-2\">Stop Collecting</span>"
 msgstr ""
 
 #. module: stock_release_channel
@@ -43,6 +53,18 @@ msgstr ""
 #. module: stock_release_channel
 #: model_terms:ir.ui.view,arch_db:stock_release_channel.stock_release_channel_kanban_view
 msgid "<span>Actions</span>"
+msgstr ""
+
+#. module: stock_release_channel
+#. odoo-python
+#: code:addons/stock_release_channel/models/stock_release_channel.py:0
+msgid "Action 'Collect Restart' is not allowed for channel %(name)s."
+msgstr ""
+
+#. module: stock_release_channel
+#. odoo-python
+#: code:addons/stock_release_channel/models/stock_release_channel.py:0
+msgid "Action 'Collect Stop' is not allowed for channel %(name)s."
 msgstr ""
 
 #. module: stock_release_channel
@@ -112,6 +134,11 @@ msgid "All transfers required to bring goods to the deliveries."
 msgstr ""
 
 #. module: stock_release_channel
+#: model:ir.model.fields,help:stock_release_channel.field_stock_release_channel__collect_pickings
+msgid "Allows you to control if pickings are assigned to the release channel."
+msgstr ""
+
+#. module: stock_release_channel
 #: model_terms:ir.ui.view,arch_db:stock_release_channel.stock_release_channel_form_view
 #: model_terms:ir.ui.view,arch_db:stock_release_channel.stock_release_channel_search_view
 msgid "Archived"
@@ -169,6 +196,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:stock_release_channel.field_res_company__release_channel_show_last_picking_done
 #: model:ir.model.fields,field_description:stock_release_channel.field_res_config_settings__release_channel_show_last_picking_done
 msgid "Channels dashboard - Show last delivery done"
+msgstr ""
+
+#. module: stock_release_channel
+#: model:ir.model.fields,field_description:stock_release_channel.field_stock_release_channel__collect_pickings
+msgid "Collect Pickings"
 msgstr ""
 
 #. module: stock_release_channel
@@ -286,6 +318,16 @@ msgstr ""
 #. module: stock_release_channel
 #: model_terms:ir.ui.view,arch_db:stock_release_channel.stock_release_channel_form_view
 msgid "Internal transfers"
+msgstr ""
+
+#. module: stock_release_channel
+#: model:ir.model.fields,field_description:stock_release_channel.field_stock_release_channel__is_action_collect_restart_allowed
+msgid "Is Action Collect Restart Allowed"
+msgstr ""
+
+#. module: stock_release_channel
+#: model:ir.model.fields,field_description:stock_release_channel.field_stock_release_channel__is_action_collect_stop_allowed
+msgid "Is Action Collect Stop Allowed"
 msgstr ""
 
 #. module: stock_release_channel
@@ -498,14 +540,8 @@ msgid "Re-assign release channel"
 msgstr ""
 
 #. module: stock_release_channel
-#: model:ir.model.fields,field_description:stock_release_channel.field_res_company__recompute_channel_on_pickings_at_release
-#: model:ir.model.fields,field_description:stock_release_channel.field_res_config_settings__recompute_channel_on_pickings_at_release
+#: model:ir.model.fields,field_description:stock_release_channel.field_stock_release_channel__recompute_channel_on_pickings_at_release
 msgid "Recompute Channel On Pickings At Release"
-msgstr ""
-
-#. module: stock_release_channel
-#: model_terms:ir.ui.view,arch_db:stock_release_channel.res_config_settings_view
-msgid "Recompute channel when releasing a transfer"
 msgstr ""
 
 #. module: stock_release_channel
@@ -573,6 +609,11 @@ msgstr ""
 
 #. module: stock_release_channel
 #: model_terms:ir.ui.view,arch_db:stock_release_channel.stock_release_channel_form_view
+msgid "Restart Collecting"
+msgstr ""
+
+#. module: stock_release_channel
+#: model_terms:ir.ui.view,arch_db:stock_release_channel.stock_release_channel_form_view
 msgid "Selection criteria"
 msgstr ""
 
@@ -622,6 +663,21 @@ msgid "Stock Release Channels"
 msgstr ""
 
 #. module: stock_release_channel
+#: model_terms:ir.ui.view,arch_db:stock_release_channel.stock_release_channel_form_view
+msgid "Stop Collecting"
+msgstr ""
+
+#. module: stock_release_channel
+#: model:ir.model.fields,help:stock_release_channel.field_stock_release_channel__is_action_collect_restart_allowed
+msgid "Technical field to check if the action 'Collect Restart' is allowed."
+msgstr ""
+
+#. module: stock_release_channel
+#: model:ir.model.fields,help:stock_release_channel.field_stock_release_channel__is_action_collect_stop_allowed
+msgid "Technical field to check if the action 'Collect Stop' is allowed."
+msgstr ""
+
+#. module: stock_release_channel
 #: model:ir.model.fields,help:stock_release_channel.field_stock_release_channel__is_action_lock_allowed
 msgid "Technical field to check if the action 'Lock' is allowed."
 msgstr ""
@@ -664,8 +720,8 @@ msgstr ""
 #: model:ir.model.fields,help:stock_release_channel.field_stock_release_channel__state
 msgid ""
 "The state allows you to control the availability of the release channel.\n"
-" * Open: Manual and automatic picking assignment to the release is effective and release operations are allowed.\n"
-"* Locked: Release operations are forbidden. (Assignement processes are still working)\n"
+" * Open: Release operations are allowed.\n"
+"* Locked: Release operations are forbidden.\n"
 "* Asleep: Assigned pickings not processed are unassigned from the release channel.\n"
 msgstr ""
 
@@ -677,6 +733,12 @@ msgstr ""
 #. module: stock_release_channel
 #: model:ir.model.fields,help:stock_release_channel.field_stock_release_channel__count_picking_full_progress
 msgid "The total number of pickings to achieve 100% of progress."
+msgstr ""
+
+#. module: stock_release_channel
+#. odoo-python
+#: code:addons/stock_release_channel/models/stock_release_channel.py:0
+msgid "This channel is restricted for manual assignment!"
 msgstr ""
 
 #. module: stock_release_channel
@@ -763,9 +825,12 @@ msgid ""
 msgstr ""
 
 #. module: stock_release_channel
-#: model:ir.model.fields,help:stock_release_channel.field_res_company__recompute_channel_on_pickings_at_release
-#: model:ir.model.fields,help:stock_release_channel.field_res_config_settings__recompute_channel_on_pickings_at_release
-msgid "When releasing a transfer, recompute channel"
+#: model:ir.model.fields,help:stock_release_channel.field_stock_release_channel__recompute_channel_on_pickings_at_release
+msgid ""
+"When releasing a transfer, recompute the channel. Be carefull when using "
+"this in conjuction with channel lifecycle (stop/start collecting, sleep/wake"
+" up) as a delivery could be kicked out of a channel if you stop collecting "
+"and recompute after release"
 msgstr ""
 
 #. module: stock_release_channel
@@ -775,10 +840,21 @@ msgstr ""
 
 #. module: stock_release_channel
 #. odoo-python
+#: code:addons/stock_release_channel/models/stock_release_channel.py:0
+msgid "You cannot collect pickings with current state!"
+msgstr ""
+
+#. module: stock_release_channel
+#. odoo-python
 #: code:addons/stock_release_channel/models/stock_picking.py:0
 msgid ""
 "You cannot release delivery of the channel %s because it has been forbidden "
 "in the release channel configuration"
+msgstr ""
+
+#. module: stock_release_channel
+#: model_terms:ir.ui.view,arch_db:stock_release_channel.stock_release_channel_kanban_view
+msgid "collect pickings"
 msgstr ""
 
 #. module: stock_release_channel
