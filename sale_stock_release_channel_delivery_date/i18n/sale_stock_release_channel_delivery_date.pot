@@ -14,6 +14,11 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: sale_stock_release_channel_delivery_date
+#: model:ir.model,name:sale_stock_release_channel_delivery_date.model_resource_calendar
+msgid "Resource Working Time"
+msgstr ""
+
+#. module: sale_stock_release_channel_delivery_date
 #: model:ir.model,name:sale_stock_release_channel_delivery_date.model_sale_order
 msgid "Sales Order"
 msgstr ""
@@ -21,4 +26,14 @@ msgstr ""
 #. module: sale_stock_release_channel_delivery_date
 #: model:ir.model,name:sale_stock_release_channel_delivery_date.model_sale_order_line
 msgid "Sales Order Line"
+msgstr ""
+
+#. module: sale_stock_release_channel_delivery_date
+#: model:ir.model,name:sale_stock_release_channel_delivery_date.model_stock_release_channel
+msgid "Stock Release Channels"
+msgstr ""
+
+#. module: sale_stock_release_channel_delivery_date
+#: model:ir.model,name:sale_stock_release_channel_delivery_date.model_stock_warehouse
+msgid "Warehouse"
 msgstr ""
