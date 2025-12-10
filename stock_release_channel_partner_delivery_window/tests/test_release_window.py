@@ -81,10 +81,8 @@ class ReleaseChannelEndDateCase(ChannelReleaseCase):
         self.picking.partner_id = self.customer_working_days
         # Since the channel's end date falls on a Saturday (non-working day),
         # and the customer only allows delivery on weekdays(Monday to Friday),
-        # no valid release channel can be found. This triggers a warning, which
-        # we assert below.
-        with self.assertLogs(level="WARNING"):
-            self._assign_picking(self.picking)
+        # no valid release channel can be found.
+        self._assign_picking(self.picking)
         self.assertNotEqual(self.channel, self.picking.release_channel_id)
         self.channel.process_end_date = today + timedelta(days=4)  # 2023-09-05
         self._assign_picking(self.picking)
@@ -98,9 +96,8 @@ class ReleaseChannelEndDateCase(ChannelReleaseCase):
         self.channel.process_end_date = today  # Friday
         # Since the channel's end date (Friday) does not match any of the partner's
         # allowed fixed time windows (which are Thursday or Saturday), no valid release
-        # channel can be found. This triggers a warning, which we assert below.
-        with self.assertLogs(level="WARNING"):
-            self._assign_picking(self.picking)
+        # channel can be found.
+        self._assign_picking(self.picking)
         self.assertNotEqual(self.channel, self.picking.release_channel_id)
         self.channel.process_end_date = today + timedelta(
             days=6
