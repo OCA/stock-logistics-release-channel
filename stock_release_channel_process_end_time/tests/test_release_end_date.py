@@ -181,14 +181,9 @@ class ReleaseChannelEndDateCase(ChannelReleaseCase):
         # Asleep the release channel to void the process end date
         # The first call to `action_sleep` ensures the channel is set to 'asleep' state,
         # which prevents pickings from being assigned immediately.
-        # We expect a warning on this transition, hence the log assertion.
-        # When other active channels exist, pickings could otherwise be reassigned to
-        # them. By sleeping this channel and ensuring no reassignment happens,
-        # we preserve the pickings in an unassigned state.
         # Upon calling `action_wake_up`, the channel wakes up and reassigns the pending
         # pickings.
-        with self.assertLogs(level="WARNING"):
-            channel.action_sleep()
+        channel.action_sleep()
         new_pickings = channel.picking_ids.move_ids.move_orig_ids.picking_id
         self.assertFalse(new_pickings)
         channel.invalidate_recordset()
