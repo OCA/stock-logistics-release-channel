@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2025-10-14 08:42+0000\n"
+"PO-Revision-Date: 2025-12-11 10:42+0000\n"
 "Last-Translator: mymage <stefano.consolaro@mymage.it>\n"
 "Language-Team: none\n"
 "Language: it\n"
@@ -33,7 +33,7 @@ msgstr "<span class=\"ms-2\">Blocca</span>"
 #. module: stock_release_channel
 #: model_terms:ir.ui.view,arch_db:stock_release_channel.stock_release_channel_kanban_view
 msgid "<span class=\"ms-2\">Restart Collecting</span>"
-msgstr ""
+msgstr "<span class=\"ms-2\">Riprendi raccolta</span>"
 
 #. module: stock_release_channel
 #: model_terms:ir.ui.view,arch_db:stock_release_channel.stock_release_channel_kanban_view
@@ -43,7 +43,7 @@ msgstr "<span class=\"ms-2\">Sospendi</span>"
 #. module: stock_release_channel
 #: model_terms:ir.ui.view,arch_db:stock_release_channel.stock_release_channel_kanban_view
 msgid "<span class=\"ms-2\">Stop Collecting</span>"
-msgstr ""
+msgstr "<span class=\"ms-2\">Ferma raccolta</span>"
 
 #. module: stock_release_channel
 #: model_terms:ir.ui.view,arch_db:stock_release_channel.stock_release_channel_kanban_view
@@ -64,13 +64,13 @@ msgstr "<span>Azioni</span>"
 #. odoo-python
 #: code:addons/stock_release_channel/models/stock_release_channel.py:0
 msgid "Action 'Collect Restart' is not allowed for channel %(name)s."
-msgstr ""
+msgstr "L'azione 'Riprendi raccolta' non è consentita per il canale %(name)s."
 
 #. module: stock_release_channel
 #. odoo-python
 #: code:addons/stock_release_channel/models/stock_release_channel.py:0
 msgid "Action 'Collect Stop' is not allowed for channel %(name)s."
-msgstr ""
+msgstr "L'azione 'Ferma raccolta' non è consentita per il canale %(name)s."
 
 #. module: stock_release_channel
 #. odoo-python
@@ -142,6 +142,7 @@ msgstr "Tutti i trasferimenti richiesti per trasportare i beni alle consegne."
 #: model:ir.model.fields,help:stock_release_channel.field_stock_release_channel__collect_pickings
 msgid "Allows you to control if pickings are assigned to the release channel."
 msgstr ""
+"Ti abilita a controllare se i prelievi sono assegnati al canale di rilascio."
 
 #. module: stock_release_channel
 #: model_terms:ir.ui.view,arch_db:stock_release_channel.stock_release_channel_form_view
@@ -206,7 +207,7 @@ msgstr "Dashboard canali - Visualizza l'ultima consegna eseguita"
 #. module: stock_release_channel
 #: model:ir.model.fields,field_description:stock_release_channel.field_stock_release_channel__collect_pickings
 msgid "Collect Pickings"
-msgstr ""
+msgstr "Raccogli prelievi"
 
 #. module: stock_release_channel
 #: model:ir.model.fields,field_description:stock_release_channel.field_stock_release_channel__color
@@ -333,12 +334,12 @@ msgstr "Trasferimento interno"
 #. module: stock_release_channel
 #: model:ir.model.fields,field_description:stock_release_channel.field_stock_release_channel__is_action_collect_restart_allowed
 msgid "Is Action Collect Restart Allowed"
-msgstr ""
+msgstr "L'azione Riprendi raccolta è abilitata"
 
 #. module: stock_release_channel
 #: model:ir.model.fields,field_description:stock_release_channel.field_stock_release_channel__is_action_collect_stop_allowed
 msgid "Is Action Collect Stop Allowed"
-msgstr ""
+msgstr "L'azione Ferma raccolta è abilitata"
 
 #. module: stock_release_channel
 #: model:ir.model.fields,field_description:stock_release_channel.field_stock_release_channel__is_action_lock_allowed
@@ -622,7 +623,7 @@ msgstr "Trasferimenti rilasciati"
 #. module: stock_release_channel
 #: model_terms:ir.ui.view,arch_db:stock_release_channel.stock_release_channel_form_view
 msgid "Restart Collecting"
-msgstr ""
+msgstr "Riprendi raccolta"
 
 #. module: stock_release_channel
 #: model_terms:ir.ui.view,arch_db:stock_release_channel.stock_release_channel_form_view
@@ -677,17 +678,18 @@ msgstr "Canali rilascio magazzino"
 #. module: stock_release_channel
 #: model_terms:ir.ui.view,arch_db:stock_release_channel.stock_release_channel_form_view
 msgid "Stop Collecting"
-msgstr ""
+msgstr "Ferma raccolta"
 
 #. module: stock_release_channel
 #: model:ir.model.fields,help:stock_release_channel.field_stock_release_channel__is_action_collect_restart_allowed
 msgid "Technical field to check if the action 'Collect Restart' is allowed."
 msgstr ""
+"Campo tecnico per controllare se l'azione 'Riprendi raccolta' è abilitata."
 
 #. module: stock_release_channel
 #: model:ir.model.fields,help:stock_release_channel.field_stock_release_channel__is_action_collect_stop_allowed
 msgid "Technical field to check if the action 'Collect Stop' is allowed."
-msgstr ""
+msgstr "Campo tecnico per controllare se l'azione 'Ferma raccolta' è abilitata."
 
 #. module: stock_release_channel
 #: model:ir.model.fields,help:stock_release_channel.field_stock_release_channel__is_action_lock_allowed
@@ -737,6 +739,11 @@ msgid ""
 "* Asleep: Assigned pickings not processed are unassigned from the release "
 "channel.\n"
 msgstr ""
+"Lo stato consente di controllare la disponibilità del canale di rilascio.\n"
+"* Aperto: le operazioni di rilascio sono consentite.\n"
+"* Bloccato: le operazioni di rilascio sono vietate.\n"
+"* Inattivo: i prelievi assegnati ma non elaborati vengono rimossi dal canale "
+"di rilascio.\n"
 
 #. module: stock_release_channel
 #: model:ir.model.fields,help:stock_release_channel.field_stock_release_channel__state_at_wakeup
@@ -752,7 +759,7 @@ msgstr "Numero totale di prelievi per raggiungere il 100% del progresso."
 #. odoo-python
 #: code:addons/stock_release_channel/models/stock_release_channel.py:0
 msgid "This channel is restricted for manual assignment!"
-msgstr ""
+msgstr "Questo canale è limitato all'assegnazione manuale!"
 
 #. module: stock_release_channel
 #: model_terms:ir.ui.view,arch_db:stock_release_channel.stock_release_channel_kanban_view
@@ -848,6 +855,11 @@ msgid ""
 "up) as a delivery could be kicked out of a channel if you stop collecting "
 "and recompute after release"
 msgstr ""
+"Quando si rilascia un trasferimento, ricalcola il canale. Prestare "
+"attenzione quando si utilizza questa funzione in combinazione con il ciclo "
+"di vita del canale (arresto/avvio della raccolta, sospensione/riattivazione)"
+", poiché una consegna potrebbe essere espulsa da un canale se si interrompe "
+"la raccolta e si ricalcola dopo il rilascio"
 
 #. module: stock_release_channel
 #: model:ir.model.fields,help:stock_release_channel.field_stock_release_channel__code
@@ -858,7 +870,7 @@ msgstr "Scrivere il codice Python per filtrare i prelievi."
 #. odoo-python
 #: code:addons/stock_release_channel/models/stock_release_channel.py:0
 msgid "You cannot collect pickings with current state!"
-msgstr ""
+msgstr "Non si possono raccogliere prelievi con lo stato attuale!"
 
 #. module: stock_release_channel
 #. odoo-python
@@ -873,7 +885,7 @@ msgstr ""
 #. module: stock_release_channel
 #: model_terms:ir.ui.view,arch_db:stock_release_channel.stock_release_channel_kanban_view
 msgid "collect pickings"
-msgstr ""
+msgstr "raccogli prelievi"
 
 #. module: stock_release_channel
 #: model_terms:ir.ui.view,arch_db:stock_release_channel.stock_release_channel_kanban_view
