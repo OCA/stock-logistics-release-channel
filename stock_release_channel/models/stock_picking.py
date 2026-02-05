@@ -142,11 +142,17 @@ class StockPicking(models.Model):
         :return: release channels
         """
         self.ensure_one()
+        channel_model = self.env["stock.release.channel"]
         domain = self._release_channel_possible_candidate_domain
-        log = self.env.context.get("assign_release_channel_log_stream")
-        if log:
+        if log := self.env.context.get("assign_release_channel_log_stream"):
             log.write(f"Find possible channels domain: {domain}\n")
-        return self.env["stock.release.channel"].search(domain)
+            channel_values = channel_model.search_read(
+                domain=[("state", "!=", "asleep")],
+                fields=channel_model._release_channel_assign_log_fields(),
+            )
+            log.write(f"Active channel values: {channel_values}\n")
+
+        return channel_model.search(domain)
 
     @property
     def _release_channel_possible_candidate_domain(self):

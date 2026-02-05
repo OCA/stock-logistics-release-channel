@@ -1129,3 +1129,11 @@ class StockReleaseChannel(models.Model):
             if best_dt is None:
                 break
         return best_dt
+
+    @api.model
+    def _release_channel_assign_log_fields(self):
+        """Release channel fields to read when logging values"""
+        return [
+            "name",
+            "collect_pickings",
+        ]

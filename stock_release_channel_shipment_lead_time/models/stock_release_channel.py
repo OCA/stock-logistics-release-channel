@@ -95,3 +95,10 @@ class StockReleaseChannel(models.Model):
         arrival_date = self._add_shipment_lead_time(delivery_date)
         while True:
             delivery_date = yield max(delivery_date, arrival_date)
+
+    @api.model
+    def _release_channel_assign_log_fields(self):
+        extra_fields = [
+            "shipment_date",
+        ]
+        return super()._release_channel_assign_log_fields() + extra_fields
