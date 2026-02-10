@@ -1055,6 +1055,7 @@ class StockReleaseChannel(models.Model):
         return dt
 
     @property
+    @api.model
     def _delivery_date_steps(self):
         """Returns the steps to compute the delivery date."""
         return ["preparation", "delivery", "customer"]
