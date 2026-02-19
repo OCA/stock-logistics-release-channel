@@ -2,16 +2,17 @@
 # Copyright 2023 Camptocamp
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
 from odoo import api, fields, models
+from odoo.osv.expression import AND
 
 
 class StockPicking(models.Model):
     _inherit = "stock.picking"
 
     @property
-    def _release_channel_possible_candidate_domain_extras(self):
+    def _release_channel_possible_candidate_domain_base(self):
         # Exclude deliveries (OUT pickings) when the date_deadline is after the shipment
         # date
-        domains = super()._release_channel_possible_candidate_domain_extras
+        domain = super()._release_channel_possible_candidate_domain_base
 
         date = self.date_deadline
         if date:
@@ -30,8 +31,8 @@ class StockPicking(models.Model):
                 ("shipment_date", "=", False),
                 ("shipment_date", ">=", date),
             ]
-            domains.append(domain_shipment)
-        return domains
+            domain = AND([domain, domain_shipment])
+        return domain
 
     @api.model
     def _search_scheduled_date_prior_to_channel_end_date_condition(self):
