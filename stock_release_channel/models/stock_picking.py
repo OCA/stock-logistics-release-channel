@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html)
 
 import io
+import pprint
 
 from odoo import api, exceptions, fields, models
 from odoo.osv import expression
@@ -91,7 +92,7 @@ class StockPicking(models.Model):
                 messages += result + "\n"
                 log = log_stream.getvalue()
                 if log:
-                    messages += f"\nDebug:\n{log}\n"
+                    messages += f"\nDebug\n=====\n{log}\n"
             log_stream.close()
         return messages
 
@@ -144,14 +145,18 @@ class StockPicking(models.Model):
         self.ensure_one()
         channel_model = self.env["stock.release.channel"]
         domain = self._release_channel_possible_candidate_domain
-        if log := self.env.context.get("assign_release_channel_log_stream"):
-            log.write(f"Find possible channels domain: {domain}\n")
+        if log_stream := self.env.context.get("assign_release_channel_log_stream"):
+            log_stream.write("Find possible channels domain:\n")
+            pprint.pp(domain, log_stream)
+            log_stream.write("\n")
+
+            log_stream.write("Active channel values:\n")
             channel_values = channel_model.search_read(
                 domain=[("state", "!=", "asleep")],
                 fields=channel_model._release_channel_assign_log_fields(),
             )
-            log.write(f"Active channel values: {channel_values}\n")
-
+            pprint.pp(channel_values, log_stream)
+            log_stream.write("\n")
         return channel_model.search(domain)
 
     @property
