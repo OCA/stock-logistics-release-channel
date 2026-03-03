@@ -17,7 +17,9 @@ class StockPicking(models.Model):
         """The delivery date must be on a partner open day"""
         return [
             "|",
+            "|",
             ("respect_partner_delivery_time_windows", "=", False),
+            ("shipment_date", "=", False),
             (
                 "delivery_date_weekday",
                 "in",

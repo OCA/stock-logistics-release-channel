@@ -108,7 +108,19 @@ class ReleaseChannelEndDateCase(ChannelReleaseCase):
     @freeze_time("2023-09-01")
     def test_assign_channel_no_respect_delivery_time_window(self):
         self.channel.respect_partner_delivery_time_windows = False
-        fields.Date.today()
+        today = fields.Date.today()
+        self.picking.partner_id = self.customer_time_window
+        self.channel.process_end_date = today  # Friday
+        # The channel's end date (Friday) does not match any of the partner's
+        # allowed fixed time windows (which are Thursday or Saturday), but the
+        # channel doesn't respect the partner delivery time window.
+        self._assign_picking(self.picking)
+        self.assertEqual(self.channel, self.picking.release_channel_id)
+
+    @freeze_time("2023-09-01")
+    def test_assign_channel_no_process_end_date(self):
+        self.channel.respect_partner_delivery_time_windows = True
+        self.assertFalse(self.channel.process_end_date)
         self.picking.partner_id = self.customer_time_window
         self._assign_picking(self.picking)
         self.assertEqual(self.channel, self.picking.release_channel_id)
