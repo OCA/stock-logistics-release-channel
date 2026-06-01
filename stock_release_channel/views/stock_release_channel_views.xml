@@ -211,6 +211,8 @@
         <field name="arch" type="xml">
             <list>
                 <field name="sequence" widget="handle" />
+                <field name="warehouse_id" optional="hide" />
+                <field name="name" />
                 <field
                     name="state"
                     widget="badge"
@@ -218,21 +220,14 @@
                     decoration-info="state  == 'locked'"
                     decoration-success="state == 'open'"
                 />
-                <field name="name" />
                 <field name="release_mode" optional="hide" />
-                <field name="count_picking_all" sum="All Total" />
-                <field name="count_picking_release_ready" sum="Release Ready Total" />
+                <field name="count_picking_need_release" sum="Released Total" />
                 <field name="count_picking_released" sum="Released Total" />
                 <field name="count_picking_assigned" sum="Assigned Total" />
                 <field name="count_picking_waiting" sum="Waiting Total" />
                 <field name="count_picking_late" sum="Late Total" />
                 <field name="count_picking_priority" sum="Priority Total" />
                 <field name="count_picking_done" sum="Done Today Total" />
-                <field
-                    name="count_picking_chain_in_progress"
-                    sum="Related In Progress Total"
-                />
-                <field name="count_picking_chain_done" sum="Related Done Total" />
             </list>
         </field>
     </record>
@@ -249,8 +244,6 @@
                 <field name="release_mode" />
                 <field name="color" />
                 <field name="name" readonly="1" />
-                <field name="count_picking_release_ready" />
-                <field name="count_move_release_ready" />
                 <field name="count_picking_released" />
                 <field name="count_move_released" />
                 <field name="count_picking_assigned" />
@@ -464,14 +457,17 @@
                                                     class="col-auto"
                                                     style="flex:1; text-align:right"
                                                 >
+                                                    <!-- Do not display count. FIXME: replace by an action
                                                     <field
                                                         name="count_picking_release_ready"
                                                     />
+                                                -->
                                                 </div>
                                                 <div
                                                     class="col-auto"
                                                     style="flex:1; white-space:nowrap"
                                                 >
+                                                    <!-- Do not display count. FIXME: replace by an action
                                                     <a
                                                         name="action_move_release_ready"
                                                         type="object"
@@ -480,9 +476,9 @@
                                                         name="count_move_release_ready"
                                                     />]
                                                     </a>
+                                                -->
                                                 </div>
                                             </div>
-
                                             <div
                                                 name="count_released"
                                                 class="row"
