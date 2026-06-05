@@ -59,10 +59,12 @@ repos:
           - --keep-source-digest
           - --convert-fragments-to-markdown
       - id: oca-gen-external-dependencies
-  - repo: https://github.com/OCA/odoo-pre-commit-hooks
-    rev: v0.0.33
+  - repo: https://github.com/Vauxoo-dev/odoo-pre-commit-hooks
+    rev: main-mod-too-long-moy
     hooks:
       - id: oca-checks-odoo-module
+        args:
+          - --enable=weblate-component-too-long
       - id: oca-checks-po
         args:
           - --disable=po-pretty-format
