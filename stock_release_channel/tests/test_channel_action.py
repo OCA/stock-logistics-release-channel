@@ -24,12 +24,10 @@ class TestChannelAction(ChannelReleaseCase):
         self._assert_picking_action(
             self.channel.action_picking_all(),
             self.picking + self.picking2 + self.picking3,
-            {"search_default_release_ready": 1},
         )
         self._assert_move_action(
             self.channel.action_move_all(),
             self.picking + self.picking2 + self.picking3,
-            {"search_default_release_ready": 1},
         )
 
     def test_action_release_forbidden(self):

@@ -13,6 +13,7 @@ class TestChannelComputedFields(ChannelReleaseCase):
     def test_computed_fields_counts_not_ready(self):
         self.assertEqual(self.channel.count_picking_all, 3)
         self.assertEqual(self.channel.count_move_all, 6)
+        self.assertEqual(self.channel.count_picking_need_release, 3)
         self.assertEqual(self.channel.count_picking_release_ready, 0)
         self.assertEqual(self.channel.count_picking_released, 0)
         self.assertEqual(self.channel.count_picking_assigned, 0)
@@ -23,11 +24,20 @@ class TestChannelComputedFields(ChannelReleaseCase):
         self.assertEqual(self.channel.count_picking_chain, 0)
         self.assertEqual(self.channel.count_picking_chain_in_progress, 0)
 
+    def test_computed_fields_counts_need_release(self):
+        self.assertEqual(self.channel.count_picking_need_release, 3)
+
     def test_computed_fields_counts_release_ready(self):
         self._update_qty_in_location(self.loc_bin1, self.product1, 20.0)
         self._update_qty_in_location(self.loc_bin1, self.product2, 20.0)
-
         self.assertEqual(self.channel.count_picking_release_ready, 3)
+
+    def test_computed_fields_counts_has_release_ready(self):
+        self.assertEqual(self.channel.has_picking_release_ready, False)
+        self._update_qty_in_location(self.loc_bin1, self.product1, 20.0)
+        self._update_qty_in_location(self.loc_bin1, self.product2, 20.0)
+        self.channel.invalidate_recordset(["has_picking_release_ready"])
+        self.assertEqual(self.channel.has_picking_release_ready, True)
 
     def test_computed_fields_counts_released(self):
         self._update_qty_in_location(self.loc_bin1, self.product1, 20.0)
@@ -37,6 +47,8 @@ class TestChannelComputedFields(ChannelReleaseCase):
 
         self.assertEqual(self.channel.count_picking_all, 3)
         self.assertEqual(self.channel.count_move_all, 6)
+        self.assertEqual(self.channel.count_picking_need_release, 2)
+        self.assertEqual(self.channel.count_move_need_release, 4)
         self.assertEqual(self.channel.count_picking_release_ready, 2)
         self.assertEqual(self.channel.count_move_release_ready, 4)
         self.assertEqual(self.channel.count_picking_released, 1)

@@ -12,7 +12,7 @@ from operator import itemgetter
 import pytz
 
 from odoo import api, exceptions, fields, models
-from odoo.osv.expression import NEGATIVE_TERM_OPERATORS
+from odoo.osv.expression import AND, NEGATIVE_TERM_OPERATORS
 from odoo.tools import groupby
 from odoo.tools.safe_eval import (
     datetime as safe_datetime,
@@ -134,8 +134,18 @@ class StockReleaseChannel(models.Model):
     count_picking_all = fields.Integer(
         string="All Transfers", compute="_compute_picking_count"
     )
+    count_picking_need_release = fields.Integer(
+        string="Release Needed Transfers", compute="_compute_picking_count"
+    )
+    has_picking_release_ready = fields.Boolean(
+        string="Release Ready",
+        compute="_compute_has_picking_release_ready",
+        help="Has release ready transfers",
+    )
     count_picking_release_ready = fields.Integer(
-        string="Release Ready Transfers", compute="_compute_picking_count"
+        string="Release Ready Transfers",
+        # use a separate compute as it's costly
+        compute="_compute_picking_count_release_ready",
     )
     count_picking_released = fields.Integer(
         string="Released Transfers", compute="_compute_picking_count"
@@ -179,8 +189,11 @@ class StockReleaseChannel(models.Model):
     count_move_all = fields.Integer(
         string="All Moves (Estimate)", compute="_compute_picking_count"
     )
+    count_move_need_release = fields.Integer(
+        string="Release Needed Moves (Estimate)", compute="_compute_picking_count"
+    )
     count_move_release_ready = fields.Integer(
-        string="Release Ready Moves (Estimate)", compute="_compute_picking_count"
+        string="Release Ready Moves", compute="_compute_picking_count_release_ready"
     )
     count_move_released = fields.Integer(
         string="Released Moves (Estimate)", compute="_compute_picking_count"
@@ -377,18 +390,32 @@ class StockReleaseChannel(models.Model):
             ("need_release", "=", True),
         ]
 
+    @property
+    def _field_picking_domain_need_release_date(self):
+        # FIXME: not TZ friendly
+        return [
+            (
+                "scheduled_date",
+                "<",
+                fields.Datetime.now().replace(hour=23, minute=59),
+            ),
+        ]
+
     def _field_picking_domains(self):
         return {
             "all": [],
-            "release_ready": [
-                ("release_ready", "=", True),
-                # FIXME not TZ friendly
-                (
-                    "scheduled_date",
-                    "<",
-                    fields.Datetime.now().replace(hour=23, minute=59),
-                ),
-            ],
+            "need_release": AND(
+                [
+                    [("need_release", "=", True)],
+                    self._field_picking_domain_need_release_date,
+                ]
+            ),
+            "release_ready": AND(
+                [
+                    [("release_ready", "=", True)],
+                    self._field_picking_domain_need_release_date,
+                ]
+            ),
             "released": [
                 ("last_release_date", "!=", False),
                 ("state", "in", ("assigned", "waiting", "confirmed")),
@@ -446,11 +473,11 @@ class StockReleaseChannel(models.Model):
         return f"{prefix}_{name}_{domain_name}"
 
     @api.model
-    def _get_default_aggregate_values(self):
+    def _get_default_aggregate_values(self, domains):
         picking_compute_fields = self._get_picking_compute_fields()
         move_compute_fields = self._get_move_compute_fields()
         default_values = {}
-        for domain_name, _d in self._field_picking_domains().items():
+        for domain_name, _d in domains.items():
             for prefix, _fetch in picking_compute_fields:
                 field = self._get_compute_field_name(prefix, "picking", domain_name)
                 default_values[field] = 0
@@ -463,6 +490,9 @@ class StockReleaseChannel(models.Model):
     # a single query
     def _compute_picking_count(self):
         domains = self._field_picking_domains()
+        if "release_ready" in domains:
+            # not part of the computed fields
+            del domains["release_ready"]
         picking_channels = defaultdict(
             lambda: {"channel_id": False, "matched_domains": []}
         )
@@ -471,8 +501,14 @@ class StockReleaseChannel(models.Model):
         picking_read_fields = self._get_picking_read_group_fields()
         picking_compute_fields = self._get_picking_compute_fields()
         for domain_name, domain in domains.items():
+            domain = AND(
+                [
+                    [("release_channel_id", "in", self.ids)],
+                    domain,
+                ]
+            )
             data = self.env["stock.picking"].read_group(
-                domain + [("release_channel_id", "in", self.ids)],
+                domain,
                 ["release_channel_id", "picking_ids:array_agg(id)"]
                 + picking_read_fields,
                 ["release_channel_id"],
@@ -507,17 +543,49 @@ class StockReleaseChannel(models.Model):
                     channel_id = picking_channels[picking_id]["channel_id"]
                     channels_aggregate_values[channel_id][field] += row[fetch]
 
-        default_aggregate_values = self._get_default_aggregate_values()
+        default_aggregate_values = self._get_default_aggregate_values(domains)
         for record in self:
             values = deepcopy(default_aggregate_values)
             values.update(channels_aggregate_values.get(record.id, {}))
             for prefix, _fetch in self._get_picking_compute_fields():
                 values[f"{prefix}_picking_full_progress"] = (
-                    values[f"{prefix}_picking_release_ready"]
-                    + values[f"{prefix}_picking_released"]
+                    values[f"{prefix}_picking_released"]
                     + values[f"{prefix}_picking_done"]
                 )
             record.update(values)
+
+    @property
+    def _has_picking_release_ready_domain(self):
+        return [("release_mode", "=", "batch"), ("state", "in", ("open", "locked"))]
+
+    def _compute_has_picking_release_ready(self):
+        channels = self.filtered_domain(self._has_picking_release_ready_domain)
+        pickings_by_channel_id = channels._get_pickings_need_release_by_channel()
+        ready_channel_ids = []
+        for channel_id, pickings in pickings_by_channel_id.items():
+            for picking in pickings:
+                picking.invalidate_recordset(["release_ready"])
+                if picking.with_prefetch().release_ready:
+                    ready_channel_ids.append(channel_id)
+                    break
+        for channel in self:
+            channel.has_picking_release_ready = channel.id in ready_channel_ids
+
+    def _compute_picking_count_release_ready(self):
+        channels = self.filtered_domain(self._has_picking_release_ready_domain)
+        pickings_by_channel_id = channels._get_pickings_need_release_by_channel()
+        all_pickings = self.env["stock.picking"].concat(
+            *pickings_by_channel_id.values()
+        )
+        all_pickings.invalidate_recordset(["release_ready"])
+        for channel in channels:
+            ready_pickings = pickings_by_channel_id.get(
+                channel.id, self.env["stock.picking"]
+            ).filtered("release_ready")
+            channel.count_picking_release_ready = len(ready_pickings)
+            channel.count_move_release_ready = len(
+                ready_pickings.move_ids.filtered("release_ready")
+            )
 
     def _query_get_chain(self, pickings):
         """Get all stock.picking before an outgoing one
@@ -734,7 +802,9 @@ class StockReleaseChannel(models.Model):
         return self._action_picking_for_field("all")
 
     def action_picking_release_ready(self):
-        return self._action_picking_for_field("release_ready")
+        return self._action_picking_for_field(
+            "need_release", filter_func=lambda p: p.release_ready
+        )
 
     def action_picking_released(self):
         return self._action_picking_for_field("released")
@@ -754,10 +824,12 @@ class StockReleaseChannel(models.Model):
     def action_picking_done(self):
         return self._action_picking_for_field("done")
 
-    def _action_picking_for_field(self, field_domain, context=None):
+    def _action_picking_for_field(self, field_domain, context=None, filter_func=None):
         domain = self._field_picking_domains()[field_domain]
         domain += [("release_channel_id", "in", self.ids)]
         pickings = self.env["stock.picking"].search(domain)
+        if filter_func:
+            pickings = pickings.filtered(filter_func)
         field = self._get_compute_field_name("count", "picking", field_domain)
         field_descr = self._fields[field]._description_string(self.env)
         return self._build_action(
@@ -768,12 +840,12 @@ class StockReleaseChannel(models.Model):
         )
 
     def action_move_all(self):
-        return self._action_move_for_field(
-            "all", context={"search_default_release_ready": 1}
-        )
+        return self._action_move_for_field("all")
 
     def action_move_release_ready(self):
-        return self._action_move_for_field("release_ready")
+        return self._action_move_for_field(
+            "need_release", filter_func=lambda p: p.release_ready
+        )
 
     def action_move_released(self):
         return self._action_move_for_field("released")
@@ -793,10 +865,12 @@ class StockReleaseChannel(models.Model):
     def action_move_done(self):
         return self._action_move_for_field("done")
 
-    def _action_move_for_field(self, field_domain, context=None):
+    def _action_move_for_field(self, field_domain, context=None, filter_func=None):
         domain = self._field_picking_domains()[field_domain]
         domain += [("release_channel_id", "in", self.ids)]
         pickings = self.env["stock.picking"].search(domain)
+        if filter_func:
+            pickings = pickings.filtered(filter_func)
         field = self._get_compute_field_name("count", "picking", field_domain)
         field_descr = self._fields[field]._description_string(self.env)
         xmlid = "stock_available_to_promise_release.stock_move_release_action"
@@ -859,12 +933,45 @@ class StockReleaseChannel(models.Model):
         return getattr(self, f"_get_next_pickings_{self.batch_mode}")()
 
     def _get_pickings_to_release(self):
-        """Get the pickings to release."""
-        domain = self._field_picking_domains()["release_ready"]
-        domain += [("release_channel_id", "in", self.ids)]
-        return self.env["stock.picking"].search(domain)
+        """Get the pickings to release"""
+        pickings = self._get_pickings_need_release()
+        pickings.invalidate_recordset(["release_ready"])
+        pickings = pickings.filtered("release_ready")
+        return pickings
+
+    def _get_pickings_need_release(self):
+        """Get the pickings in need release"""
+        return self._get_pickings_need_release_by_channel().get(
+            self.id, self.env["stock.picking"]
+        )
+
+    def _get_pickings_need_release_by_channel(self):
+        """Get the pickings in need release by release channel"""
+        domain = AND(
+            [
+                [
+                    ("release_channel_id", "in", self.ids),
+                    ("state", "not in", ("done", "cancel")),
+                ],
+                self._field_picking_domains()["need_release"],
+            ]
+        )
+        data = self.env["stock.picking"].read_group(
+            domain,
+            ["release_channel_id", "picking_ids:array_agg(id)"],
+            ["release_channel_id"],
+        )
+        pickings_by_channel_id = {}
+        for row in data:
+            channel_id = row["release_channel_id"] and row["release_channel_id"][0]
+            if not channel_id:
+                continue
+            pickings = self.env["stock.picking"].browse(row["picking_ids"])
+            pickings_by_channel_id[channel_id] = pickings
+        return pickings_by_channel_id
 
     def _get_next_pickings_max(self):
+        self.ensure_one()
         if not self.max_batch_mode:
             raise exceptions.UserError(
                 self.env._("No Max transfers to release is configured.")
@@ -882,12 +989,31 @@ class StockReleaseChannel(models.Model):
                     " progress is already at the maximum."
                 )
             )
-        next_pickings = self._get_pickings_to_release()
+        pickings = self._get_pickings_need_release()
         # We have to use a python sort and not a order + limit on the search
         # because "date_priority" is computed and not stored. If needed, we
         # should evaluate making it a stored field in the module
         # "stock_available_to_promise_release".
-        return next_pickings.sorted(self._pickings_sort_key)[:release_limit]
+        pickings = pickings.sorted(self._pickings_sort_key)
+        # As release_ready is costly, prefetch only for a recordset up to the
+        # release limit
+        next_pickings = pickings.browse()
+        count = 0
+        remaining_pickings = pickings
+        while count < release_limit:
+            prefetch_limit = release_limit - count
+            pickings_to_fetch = remaining_pickings[:prefetch_limit]
+            if not pickings_to_fetch:
+                break
+            remaining_pickings = remaining_pickings[prefetch_limit:]
+            pickings_to_fetch.invalidate_recordset(["release_ready"])
+            for picking in pickings_to_fetch.with_prefetch():
+                if picking.release_ready:
+                    next_pickings |= picking
+                    count += 1
+                    if count >= release_limit:
+                        break
+        return next_pickings
 
     def _check_is_release_allowed(self):
         for rec in self:
